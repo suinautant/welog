@@ -1,6 +1,7 @@
 package com.welog.www.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +14,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Board {
+public class Article {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long   id;
+	private Long id;
 
 	@NotNull
 	@Size(min = 2, max = 100, message = "제목은 2자 이상 100자 이하입니다.")
@@ -26,8 +27,9 @@ public class Board {
 	@NotNull
 	private String content;
 	private String image_src;
-	private Date   created_date;
-	private Date   updated_date;
+	//	private Date   created_date;
+	private LocalDateTime created_date;
+	private Date          updated_date;
 
 	/*
 	 * CREATE TABLE `board` (

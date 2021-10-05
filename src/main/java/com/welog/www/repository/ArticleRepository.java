@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.welog.www.model.Board;
+import com.welog.www.model.Article;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 	
 	
 

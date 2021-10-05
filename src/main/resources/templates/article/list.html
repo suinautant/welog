@@ -58,8 +58,14 @@
   <main>
     <div class="album py-5 bg-light">
       <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div>
 
+          <!-- 페이징 적용 후 총 건수 적용-->
+          <h2>게시판</h2>
+          <div class="text-start">
+            총 건수 :
+            <span>00</span>
+          </div>
           <table class="table table-striped table-hover">
             <thead>
               <tr>
@@ -70,11 +76,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="board : ${boards}">
-                <td th:text="${board.id}">1</td=>
-                <td th:text="${board.subject}">hi</td>
+              <tr th:each="article : ${articles}">
+                <td th:text="${article.id}">1</td=>
+                <td th:text="${article.subject}">hi</td>
                 <td>Mark</td>
-                <td th:text="${board.created_date}">2021.10.10</td>
+                <td th:text="${article.created_date}">2021.10.10</td>
               </tr>
             </tbody>
           </table>
