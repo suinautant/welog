@@ -18,9 +18,11 @@ public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long   id;
+
 	@NotNull
 	@Size(min = 2, max = 100, message = "제목은 2자 이상 100자 이하입니다.")
 	private String subject;
+
 	@NotNull
 	private String content;
 	private String image_src;
