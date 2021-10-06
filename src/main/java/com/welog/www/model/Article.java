@@ -25,11 +25,10 @@ public class Article {
 	private String subject;
 
 	@NotNull
-	private String content;
-	private String image_src;
-	//	private Date   created_date;
+	private String        content;
+	private String        image_src;
 	private LocalDateTime created_date;
-	private Date          updated_date;
+	private LocalDateTime updated_date;
 
 	/*
 	 * CREATE TABLE `article` (
