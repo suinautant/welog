@@ -60,21 +60,23 @@
       <div class="container">
         <div>
 
-          <!-- 페이징 적용 후 총 건수 적용-->
           <h2>아티클</h2>
-          <div class="mb-3">
-            <label for="formGroupSubjectInput" class="form-label" hidden>제목</label>
-            <input type="text" class="form-control" id="formGroupSubjectInput" placeholder="제목">
-          </div>
-          <div class="mb-3">
-            <label for="formGroupContentTextarea" class="form-label" hidden>본문</label>
-            <textarea class="form-control" id="formGroupContentTextarea" placeholder="본문"
-              style="height: 400px"></textarea>
-          </div>
-          <div class="d-grid gap-2 d-md-block text-center">
-            <a class="btn btn-primary me-md-2" type="button" fref="#" th:text="완료">submit</a>
-            <a class="btn btn-primary" type="button" th:href="@{/article/list}" th:text="목록">list</a>
-          </div>
+          <form action="#" th:action="@{/article/form}" th:object="${article}" method="POST">
+            <div class="mb-3">
+              <label for="formGroupSubjectInput" class="form-label" hidden>제목</label>
+              <input type="text" class="form-control" id="formGroupSubjectInput" th:field="*{subject}"
+                th:value="${article.subject}" value="subject">
+            </div>
+            <div class="mb-3">
+              <label for="formGroupContentTextarea" class="form-label" hidden>본문</label>
+              <textarea class="form-control" id="formGroupContentTextarea" style="height: 400px" th:field="*{content}"
+                th:text="${article.content}"></textarea>
+            </div>
+            <div class="d-grid gap-2 d-md-block text-center">
+              <button class="btn btn-primary me-md-2" type="submit" ref="#" th:text="완료">submit</button>
+              <a class="btn btn-primary" type="button" th:href="@{/article/list}" th:text="목록">list</a>
+            </div>
+          </form>
 
         </div>
       </div>

@@ -3,6 +3,7 @@ package com.welog.www.model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,8 @@ public class Article {
 	@NotNull
 	private String        content;
 	private String        image_src;
+	
+	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime created_date;
 	private LocalDateTime updated_date;
 
