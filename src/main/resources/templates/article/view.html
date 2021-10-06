@@ -62,19 +62,35 @@
 
           <!-- 페이징 적용 후 총 건수 적용-->
           <h2>아티클</h2>
-          <div class="mb-3">
-            <label for="formGroupSubjectInput" class="form-label" hidden>제목</label>
-            <input type="text" class="form-control" id="formGroupSubjectInput" placeholder="제목">
+          <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <div class="mb-3">
+              <div class="mb-1">
+                <span class="fs-5" th:text="${article.subject}">
+                  제목
+                </span>
+              </div>
+              <div class="mb-1 text-black-50">
+                <span>
+                  작성자
+                </span>
+                <span th:text="${article.created_date}">
+                  날짜
+                </span>
+              </div>
+            </div>
+            <hr>
+            <div class="mb-3">
+              <span class="fs-6" th:text="${article.content}">
+                내용
+              </span>
+            </div>
           </div>
-          <hr>
-          <div class="mb-3">
-            <label for="formGroupContentTextarea" class="form-label" hidden>본문</label>
-            <textarea class="form-control" id="formGroupContentTextarea" placeholder="본문"
-              style="height: 400px"></textarea>
-          </div>
+
+          <!-- Button -->
           <div class="d-grid gap-2 d-md-block text-center">
-            <button class="btn btn-primary me-md-2" type="button">modify</button>
-            <button class="btn btn-primary" type="button">list</button>
+            <a class="btn btn-primary me-md-2" type="button" th:href="@{/article/form(id=${article.id})}"
+              th:text="수정">modify</a>
+            <a class="btn btn-primary" type="button" th:href="@{/article/list}" th:text="목록">list</a>
           </div>
 
         </div>

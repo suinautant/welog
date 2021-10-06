@@ -72,8 +72,8 @@
               style="height: 400px"></textarea>
           </div>
           <div class="d-grid gap-2 d-md-block text-center">
-            <button class="btn btn-primary me-md-2" type="button">modify</button>
-            <button class="btn btn-primary" type="button">list</button>
+            <a class="btn btn-primary me-md-2" type="button" fref="#" th:text="완료">submit</a>
+            <a class="btn btn-primary" type="button" th:href="@{/article/list}" th:text="목록">list</a>
           </div>
 
         </div>
