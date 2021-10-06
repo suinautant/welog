@@ -26,14 +26,16 @@ public class ArticleController {
 	private ArticleRepository articleRepository;
 
 	@GetMapping("list")
-	public String list(Model model,
-			@PageableDefault(size = 10) Pageable pageable) {
+	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
+			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// id로 역순 정렬 모두 조회
-		Page<Article> articles = articleRepository.findAll(pageable);
+//		Page<Article> articles = articleRepository.findAll(pageable);
+		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
+
 		// 아래 2줄 적용시 해당 페이지(10개 사이즈) 0번의 레코드만 가져옴
-//		PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
-//		Page<Article> articles = articleRepository.findAll(pageRequest);
-		
+		//		PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
+		//		Page<Article> articles = articleRepository.findAll(pageRequest);
+
 		int startPage = Math.max(1, articles.getPageable().getPageNumber() - 4);
 		int endPage   = Math.min(articles.getTotalPages(), articles.getPageable().getPageNumber() + 4);
 
