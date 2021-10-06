@@ -32,17 +32,18 @@ public class Article {
 	private Date          updated_date;
 
 	/*
-	 * CREATE TABLE `board` (
+	 * CREATE TABLE `article` (
 	 * `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	 * `subject` VARCHAR(200) NOT NULL COLLATE 'utf8_general_ci',
 	 * `content` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	 * `image_src` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	 * `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
-	 * `updated_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
+	 * `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	 * `updated_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
 	 * PRIMARY KEY (`id`) USING BTREE
 	 * )
 	 * COLLATE='utf8_general_ci'
 	 * ENGINE=InnoDB
+	 * AUTO_INCREMENT=4
 	 * ;
 	 * 
 	 */
