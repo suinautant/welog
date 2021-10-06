@@ -1,3 +1,5 @@
+- 글 수정
+
 - article 사용자 연동
 - list.html 사용자 출력
 - view.html 사용자 출력

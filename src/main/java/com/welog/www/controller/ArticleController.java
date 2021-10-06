@@ -66,16 +66,16 @@ public class ArticleController {
 
 	@GetMapping("form")
 	public String form(Model model, @RequestParam(required = false) Long id) {
-		if (id == null) {
-			model.addAttribute("article", new Article());
-		} else {
+//		if (id == null) {
+//			model.addAttribute("article", new Article());
+//		} else {
 			Article article = articleRepository.findById(id).orElse(null);
 			// 예외처리: id 값이 Long 타입이 아니거나 없는 게시물에 접근 시 목록으로 보내기
 			if (article == null) {
 				return "redirect:/article/list";
 			}
 			model.addAttribute("article", article);
-		}
+//		}
 		return "article/form";
 	}
 	
