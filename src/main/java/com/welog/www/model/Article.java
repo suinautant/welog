@@ -26,11 +26,13 @@ public class Article {
 	private String subject;
 
 	@NotNull
-	private String        content;
-	private String        image_src;
-	
+	private String content;
+
+	private String image_src;
+
 	@Column(nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime created_date;
+
 	private LocalDateTime updated_date;
 
 	/*
@@ -39,14 +41,15 @@ public class Article {
 	 * `subject` VARCHAR(200) NOT NULL COLLATE 'utf8_general_ci',
 	 * `content` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	 * `image_src` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	 * `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-	 * `updated_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	 * `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	 * `updated_date` TIMESTAMP NULL DEFAULT NULL,
 	 * PRIMARY KEY (`id`) USING BTREE
 	 * )
 	 * COLLATE='utf8_general_ci'
 	 * ENGINE=InnoDB
-	 * AUTO_INCREMENT=4
+	 * AUTO_INCREMENT=78
 	 * ;
+	 * 
 	 * 
 	 */
 
