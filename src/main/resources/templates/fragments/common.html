@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="head(title)">
   <!-- Required meta tags -->
@@ -74,8 +74,20 @@
               </li>
             -->
           </ul>
+          <!-- search (subject, content)  -->
           <form th:action="@{/article/list}">
             <input class="form-control" type="text" name="searchText" placeholder="Search" aria-label="Search">
+          </form>
+          <!-- authentication -->
+          <a class="btn btn-secondary my-2 my-sm-0 mx-2" th:href="@{/account/login}"
+            sec:authorize="!isAuthenticated()">로그인</a>
+          <a class="btn btn-secondary my-2 my-sm-0 mx-2" th:href="@{/account/register}"
+            sec:authorize="!isAuthenticated()">회원가입</a>
+          <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+            <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" /> -->
+            <span class="text-white mx-2" sec:authentication="name">사용자</span>
+            <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span>
+            <button class="btn btn-secondary my-2 my-sm-0 mx-2" type="submit">로그아웃</button>
           </form>
         </div>
       </div>

@@ -79,6 +79,7 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
+			// 현재 시간 updated_date에 설정
 			article.setUpdated_date(LocalDateTime.now());
 			model.addAttribute("article", article);
 		}
