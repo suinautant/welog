@@ -3,22 +3,23 @@ package com.welog.www.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order.Direction;
 import com.welog.www.model.Article;
 import com.welog.www.repository.ArticleRepository;
+import com.welog.www.validator.ArticleValidator;
 
 @Controller
 @RequestMapping("/article")
@@ -26,6 +27,9 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private ArticleValidator articleValidator;
 
 	@GetMapping("list")
 	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
@@ -67,9 +71,9 @@ public class ArticleController {
 
 	@GetMapping("form")
 	public String form(Model model, @RequestParam(required = false) Long id) {
-//		if (id == null) {
-//			model.addAttribute("article", new Article());
-//		} else {
+		if (id == null) {
+			model.addAttribute("article", new Article());
+		} else {
 			Article article = articleRepository.findById(id).orElse(null);
 			// 예외처리: id 값이 Long 타입이 아니거나 없는 게시물에 접근 시 목록으로 보내기
 			if (article == null) {
@@ -77,15 +81,22 @@ public class ArticleController {
 			}
 			article.setUpdated_date(LocalDateTime.now());
 			model.addAttribute("article", article);
-//		}
+		}
 		return "article/form";
 	}
-	
+
 	@PostMapping("form")
-	public String formPost(Article article) {
-		
+	public String formPost(@Valid Article article, BindingResult bindingResult) {
+
+		// validator 검증 
+		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
+		articleValidator.validate(article, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return "/article/form";
+		}
+
 		articleRepository.save(article);
-		
+
 		return "redirect:/article/list";
 	}
 
