@@ -1,5 +1,6 @@
 package com.welog.www.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
-			model.addAttribute(article);
+			model.addAttribute("article", article);
 		}
 		return "article/view";
 	}
@@ -74,6 +75,7 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
+			article.setUpdated_date(LocalDateTime.now());
 			model.addAttribute("article", article);
 //		}
 		return "article/form";

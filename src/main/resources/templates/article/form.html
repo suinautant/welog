@@ -62,10 +62,13 @@
 
           <h2>아티클</h2>
           <form action="#" th:action="@{/article/form}" th:object="${article}" method="POST">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{created_date}" />
+            <input type="hidden" th:field="*{updated_date}" th:value="${article.updated_date}" />
             <div class="mb-3">
               <label for="formGroupSubjectInput" class="form-label" hidden>제목</label>
               <input type="text" class="form-control" id="formGroupSubjectInput" th:field="*{subject}"
-                th:value="${article.subject}" value="subject">
+                th:value="${article.subject}" value="subject" />
             </div>
             <div class="mb-3">
               <label for="formGroupContentTextarea" class="form-label" hidden>본문</label>
