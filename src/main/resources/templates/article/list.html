@@ -81,7 +81,7 @@
                 <td>
                   <a href="#" th:text="${article.subject}" th:href="@{/article/view(id=${article.id})}">subject</a>
                 </td>
-                <td>name</td>
+                <td th:text="${article.user.username}">name</td>
                 <td th:text="${article.created_date}">created date</td>
               </tr>
             </tbody>

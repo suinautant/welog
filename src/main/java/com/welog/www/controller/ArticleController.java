@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
 import com.welog.www.repository.ArticleRepository;
+import com.welog.www.service.ArticleService;
 import com.welog.www.validator.ArticleValidator;
 
 @Controller
@@ -27,6 +29,9 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private ArticleService  articleService;
 	
 	@Autowired
 	private ArticleValidator articleValidator;
@@ -75,10 +80,12 @@ public class ArticleController {
 			model.addAttribute("article", new Article());
 		} else {
 			Article article = articleRepository.findById(id).orElse(null);
+
 			// 예외처리: id 값이 Long 타입이 아니거나 없는 게시물에 접근 시 목록으로 보내기
 			if (article == null) {
 				return "redirect:/article/list";
 			}
+
 			// 현재 시간 updated_date에 설정
 			article.setUpdated_date(LocalDateTime.now());
 			model.addAttribute("article", article);
@@ -87,7 +94,7 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(@Valid Article article, BindingResult bindingResult) {
+	public String formPost(@Valid Article article, BindingResult bindingResult, Authentication authentication) {
 
 		// validator 검증 
 		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
@@ -96,7 +103,8 @@ public class ArticleController {
 			return "/article/form";
 		}
 
-		articleRepository.save(article);
+		String username = authentication.getName();
+		articleService.save(username, article);
 
 		return "redirect:/article/list";
 	}
