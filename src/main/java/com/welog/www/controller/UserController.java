@@ -9,33 +9,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.welog.www.model.User;
 import com.welog.www.repository.UserRepository;
+import com.welog.www.service.UserService;
 
 @Controller
 @RequestMapping("/account")
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
+	@GetMapping("login")
+	public String login() {
+		return "account/login";
+	}
+
 	@GetMapping("register")
 	public String register(Model model) {
-		
-		model.addAttribute("user", new User());
-
 		return "account/register";
 	}
 	
 	@PostMapping("register")
 	public String registerPost(User user) {
-		user.setEnabled(true);
-		userRepository.save(user);
+		userService.save(user);
 		return "redirect:/";
-	}
-	
-	
-	@GetMapping("login")
-	public String login() {
-		return "account/login";
 	}
 
 }

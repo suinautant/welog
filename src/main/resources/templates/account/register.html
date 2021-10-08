@@ -50,16 +50,16 @@
           </div>
 
           <div class="modal-body p-5 pt-0">
-            <form class="" th:action="@{/account/register}" th:object="${user}" method="POST">
+            <form class="" th:action="@{/account/register}" method="POST">
               <!-- <input type="hidden" th:field="*{id}" /> -->
               <div class="form-floating mb-3">
                 <input type="text" class="form-control rounded-4" id="floatingInput" placeholder="Username"
-                  th:field="*{username}">
+                  name="username">
                 <label for="floatingInput">Username</label>
               </div>
               <div class="form-floating mb-3">
                 <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password"
-                  th:field="*{password}">
+                  name="password">
                 <label for="floatingPassword">Password</label>
               </div>
               <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
