@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,13 +38,9 @@ public class ArticleController {
 	@Autowired
 	private ArticleValidator articleValidator;
 
-	@GetMapping("main")
-//		public String main(Model model, @PageableDefault(size = 10) Pageable pageable,
+	@GetMapping("/")
 	public String main(Model model, Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
-		// id로 역순 정렬 모두 조회
-		//		Page<Article> articles = articleRepository.findAll(pageable);
-//		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
 		// 페이징 기능 삭제 - 메인용
 		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
 		
@@ -124,5 +122,11 @@ public class ArticleController {
 
 		return "redirect:/article/list";
 	}
+	
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id) {
+		articleRepository.deleteById(id);
+	}
+	
 
 }

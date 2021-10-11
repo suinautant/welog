@@ -90,6 +90,8 @@
           <div class="d-grid gap-2 d-md-block text-center">
             <a class="btn btn-primary me-md-2" type="button" th:href="@{/article/form(id=${article.id})}"
               th:text="수정">modify</a>
+            <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticle(*{article.id})|"
+              th:text="삭제">delete</a>
             <a class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</a>
           </div>
 
@@ -112,6 +114,24 @@
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"></script>
   </footer>
+  <!-- 현재 페이지에만 적용 될 스크립트 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script>
+    function deleteArticle(id) {
+      // DELETE /board/delete/id
+      // using jquery
+      $.ajax({
+        url: '/article/' + id,
+        type: 'DELETE',
+        success: function (result) {
+          console.log('result : ' + result);
+          alert(id + '번 게시물 삭제됐습니다.');
+          window.location.href = '/';
+        },
+      });
+    }
+  </script>
 </body>
 
 </html>
