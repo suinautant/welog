@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/common :: head('게시판 - 폼')">
   <meta charset="utf-8" />
@@ -88,13 +88,14 @@
 
           <!-- Button -->
           <div class="d-grid gap-2 d-md-block text-center">
+            <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
             <button class="btn btn-primary me-md-2" type="button" th:href="@{/article/form(id=${article.id})}"
               th:onclick="|location.href='@{/article/form(id=${article.id})}'|" th:text="수정">modify</button>
+            <!-- th:if="${#authentication.name == article.user.username}">modify</button> -->
             <!-- DELETE REST 사용시 -->
             <!-- <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticleJquery(*{article.id})|" th:text="삭제">delete</a> -->
-            <!-- <a class="btn btn-primary me-md-2" type="button" th:href="@{/article/delete(id=${article.id})}" th:text="삭제">delete</a> -->
-            <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticle(*{article.id})|"
-              th:text="삭제">delete</a>
+            <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticle(*{article.id})|" th:text="삭제"
+              th:if="${#authentication.name == article.user.username}">delete</a>
             <a class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</a>
           </div>
 
@@ -122,13 +123,10 @@
     crossorigin="anonymous"></script>
   <script th:inline="javascript">
     function deleteArticle(id) {
-      // th: href = "@{/article/delete(id=${article.id})}"
-      // alert("current user : " + [[${ currentUsername }]] + " / article user" + ${ article.user.username));
       let currentUsername = [[${ currentUsername }]];
       let articleUsername = [[${ article.user.username }]];
       let articleId = [[${ article.id }]];
-      console.log("curr : " + currentUsername);
-      console.log("article : " + articleUsername);
+
       if (currentUsername == articleUsername)
         location.href = "/article/delete?id=" + id;
       else

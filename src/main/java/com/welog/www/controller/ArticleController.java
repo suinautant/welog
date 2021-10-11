@@ -82,11 +82,12 @@ public class ArticleController {
 			}
 
 			// 로그인 상태면 사용자 정보 넘기기
-			String currentUsername;
-			if (authentication != null) {
-				currentUsername = authentication.getName();
-				model.addAttribute("currentUsername", currentUsername);
-			}
+			// 버튼 감추고 서버 요청시 확인
+			//			String currentUsername;
+			//			if (authentication != null) {
+			//				currentUsername = authentication.getName();
+			//				model.addAttribute("currentUsername", currentUsername);
+			//			}
 
 			model.addAttribute("article", article);
 		}
@@ -113,7 +114,8 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(@Valid Article article, BindingResult bindingResult, Authentication authentication) {
+	public String formPost(@Valid Article article, @RequestParam(required = false) Long id,
+			BindingResult bindingResult, Authentication authentication) {
 
 		// validator 검증 
 		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
@@ -122,9 +124,17 @@ public class ArticleController {
 			return "/article/form";
 		}
 
+		if (id != null) {
+			String articleUsername = article.getUser().getUsername();
+			String currentUsername = authentication.getName();
+			
+			// 사용자 인증 : 원글 사용자 아니면 리다이렉트
+			if (!currentUsername.equals(articleUsername))
+				return "redirect:/";
+		}
+
 		String username = authentication.getName();
 		articleService.save(username, article);
-
 		return "redirect:/";
 	}
 
@@ -134,6 +144,7 @@ public class ArticleController {
 		String  articleUsername = article.getUser().getUsername();
 		String  currentUsername = authentication.getName();
 
+		// 사용자 인증 : : 원글 사용자면 삭제
 		if (currentUsername.equals(articleUsername))
 			articleRepository.deleteById(id);
 

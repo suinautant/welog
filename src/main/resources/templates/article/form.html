@@ -63,6 +63,8 @@
           <h2>새로운 글 작성</h2>
           <form action="#" th:action="@{/article/form}" th:object="${article}" method="POST">
             <input type="hidden" th:field="*{id}" />
+            <!-- 수정시 사용자 확인 위해 user.username 전송 -->
+            <input type="hidden" th:field="*{user.username}" />
             <input type="hidden" th:field="*{created_date}" />
             <input type="hidden" th:field="*{updated_date}" th:value="${article.updated_date}" />
             <div class="mb-3">
