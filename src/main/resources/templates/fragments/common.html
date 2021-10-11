@@ -56,8 +56,14 @@
                 th:href="@{/article/list}">Article</a>
             </li>
             <li class="nav-item">
-              <span class="sr-only" th:text="${menu}">(current)</span></a>
+              <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
+                th:href="@{/article/list(viewType='board')}">Board</a>
             </li>
+            <!--
+              <li class="nav-item">
+                <span class="sr-only" th:text="${menu}">(current)</span></a>
+              </li>
+            -->
             <!--
             메뉴 비활성화  
               <li class="nav-item">

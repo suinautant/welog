@@ -37,7 +37,8 @@ public class ArticleController {
 
 	@GetMapping("list")
 	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
-			@RequestParam(required = false, defaultValue = "") String searchText) {
+			@RequestParam(required = false, defaultValue = "") String searchText,
+			@RequestParam(required = false, defaultValue = "") String viewType) {
 		// id로 역순 정렬 모두 조회
 		//		Page<Article> articles = articleRepository.findAll(pageable);
 		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText,
@@ -54,8 +55,11 @@ public class ArticleController {
 		model.addAttribute("articles", articles);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
+		
+		if ("board".equals(viewType)) 
+			return "article/list";
 
-		return "article/list";
+		return "article/main";
 	}
 
 	@GetMapping("view")
