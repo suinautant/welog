@@ -90,8 +90,8 @@
           <div class="d-grid gap-2 d-md-block text-center">
             <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
             <button class="btn btn-primary me-md-2" type="button" th:href="@{/article/form(id=${article.id})}"
-              th:onclick="|location.href='@{/article/form(id=${article.id})}'|" th:text="수정">modify</button>
-            <!-- th:if="${#authentication.name == article.user.username}">modify</button> -->
+              th:onclick="|location.href='@{/article/form(id=${article.id})}'|" th:text="수정"
+              th:if="${#authentication.name == article.user.username}">modify</button>
             <!-- DELETE REST 사용시 -->
             <!-- <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticleJquery(*{article.id})|" th:text="삭제">delete</a> -->
             <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticle(*{article.id})|" th:text="삭제"
