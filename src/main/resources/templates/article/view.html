@@ -121,18 +121,22 @@
   <!-- 현재 페이지에만 적용 될 스크립트 -->
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-  <script th:inline="javascript">
+  <!-- 다른 사용자 글의 수정 및 삭제 버튼 숨김 -->
+  <!-- request parameter를 통한 요청을 대비해 spring에서 사용자명 비교 -->
+  <!--
+      <script th:inline="javascript">
+        /*<![CDATA[*/
     function deleteArticle(id) {
       let currentUsername = [[${ currentUsername }]];
       let articleUsername = [[${ article.user.username }]];
       let articleId = [[${ article.id }]];
-
+      
       if (currentUsername == articleUsername)
-        location.href = "/article/delete?id=" + id;
+      location.href = "/article/delete?id=" + id;
       else
-        alert("본인의 게시물만 삭제 가능합니다.")
+      alert("본인의 게시물만 삭제 가능합니다.")
     }
-
+    
     function deleteArticleJquery(id) {
       // DELETE /board/delete/id
       // using jquery
@@ -146,7 +150,9 @@
         },
       });
     }
+    /*]]>*/
   </script>
+-->
 </body>
 
 </html>
