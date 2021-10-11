@@ -13,9 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,14 +41,14 @@ public class ArticleController {
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// 페이징 기능 삭제 - 메인용
 		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
-		
+
 		model.addAttribute("articles", articles);
-		
+
 		return "article/main";
 	}
 
 	@GetMapping("list")
-		public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
+	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// id로 역순 정렬 모두 조회
 		//		Page<Article> articles = articleRepository.findAll(pageable);
@@ -71,10 +69,10 @@ public class ArticleController {
 
 		return "article/list";
 	}
-	
 
 	@GetMapping("view")
-	public String view(Model model, @RequestParam(required = false) Long id) {
+	public String view(Model model, @RequestParam(required = false) Long id,
+			Authentication authentication) {
 
 		if (id != null) {
 			Article article = articleRepository.findById(id).orElse(null);
@@ -83,7 +81,10 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
+			String  currentUsername    = authentication.getName();
+
 			model.addAttribute("article", article);
+			model.addAttribute("currentUsername" ,currentUsername);
 		}
 		return "article/view";
 	}
@@ -120,13 +121,19 @@ public class ArticleController {
 		String username = authentication.getName();
 		articleService.save(username, article);
 
-		return "redirect:/article/list";
+		return "redirect:/";
 	}
-	
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		articleRepository.deleteById(id);
+
+	@GetMapping("delete")
+	public String delete(@RequestParam(required = true) Long id, Authentication authentication) {
+		Article article         = articleRepository.findById(id).orElse(null);
+		String  articleUsername = article.getUser().getUsername();
+		String  currentUsername    = authentication.getName();
+
+		if (currentUsername.equals(articleUsername))
+			articleRepository.deleteById(id);
+
+		return "redirect:/";
 	}
-	
 
 }
