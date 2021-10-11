@@ -71,8 +71,7 @@ public class ArticleController {
 	}
 
 	@GetMapping("view")
-	public String view(Model model, @RequestParam(required = false) Long id,
-			Authentication authentication) {
+	public String view(Model model, @RequestParam(required = false) Long id, Authentication authentication) {
 
 		if (id != null) {
 			Article article = articleRepository.findById(id).orElse(null);
@@ -81,10 +80,15 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
-			String  currentUsername    = authentication.getName();
+
+			// 로그인 상태면 사용자 정보 넘기기
+			String currentUsername;
+			if (authentication != null) {
+				currentUsername = authentication.getName();
+				model.addAttribute("currentUsername", currentUsername);
+			}
 
 			model.addAttribute("article", article);
-			model.addAttribute("currentUsername" ,currentUsername);
 		}
 		return "article/view";
 	}
@@ -128,7 +132,7 @@ public class ArticleController {
 	public String delete(@RequestParam(required = true) Long id, Authentication authentication) {
 		Article article         = articleRepository.findById(id).orElse(null);
 		String  articleUsername = article.getUser().getUsername();
-		String  currentUsername    = authentication.getName();
+		String  currentUsername = authentication.getName();
 
 		if (currentUsername.equals(articleUsername))
 			articleRepository.deleteById(id);
