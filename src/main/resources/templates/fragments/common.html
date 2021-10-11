@@ -53,11 +53,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
-                th:href="@{/article/list}">Article</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
-                th:href="@{/article/list(viewType='board')}">Board</a>
+                th:href="@{/article/list}">Board</a>
             </li>
             <!--
               <li class="nav-item">
@@ -104,8 +100,13 @@
     <section class="py-5 text-center container" th:fragment="topSection">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
+
           <h1 class="fw-light">Welcome WElog</h1>
           <p class="lead text-muted">WElog에 오신 것을 환영합니다. </p>
+          <!-- button  -->
+          <div class="text-start text-center">
+            <a type="button" class="btn btn-primary" th:href="@{/article/form}">로그 남기기</a>
+          </div>
 
         </div>
       </div>

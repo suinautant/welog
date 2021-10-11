@@ -98,7 +98,8 @@
               </li>
               <li class="page-item" th:classappend="${i == articles.pageable.pageNumber+1} ? 'disabled'"
                 th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                <a class="page-link" href="#" th:text="${i}" th:href="@{/article/list(page=${i-1})}"> 1 </a>
+                <a class="page-link" href="#" th:text="${i}" th:href="@{/article/list(page=${i-1})}"> 1
+                </a>
               </li>
               <li class="page-item"
                 th:classappend="${articles.totalPages == articles.pageable.pageNumber+1} ? 'disabled'">

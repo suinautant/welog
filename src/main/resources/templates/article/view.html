@@ -90,7 +90,7 @@
           <div class="d-grid gap-2 d-md-block text-center">
             <a class="btn btn-primary me-md-2" type="button" th:href="@{/article/form(id=${article.id})}"
               th:text="수정">modify</a>
-            <a class="btn btn-primary" type="button" th:href="@{/article/list}" th:text="목록">list</a>
+            <a class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</a>
           </div>
 
         </div>

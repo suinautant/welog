@@ -1,6 +1,7 @@
 package com.welog.www.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -28,17 +29,31 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleRepository articleRepository;
-	
+
 	@Autowired
-	private ArticleService  articleService;
-	
+	private ArticleService articleService;
+
 	@Autowired
 	private ArticleValidator articleValidator;
 
+	@GetMapping("main")
+//		public String main(Model model, @PageableDefault(size = 10) Pageable pageable,
+	public String main(Model model, Pageable pageable,
+			@RequestParam(required = false, defaultValue = "") String searchText) {
+		// id로 역순 정렬 모두 조회
+		//		Page<Article> articles = articleRepository.findAll(pageable);
+//		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
+		// 페이징 기능 삭제 - 메인용
+		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+		
+		model.addAttribute("articles", articles);
+		
+		return "article/main";
+	}
+
 	@GetMapping("list")
-	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
-			@RequestParam(required = false, defaultValue = "") String searchText,
-			@RequestParam(required = false, defaultValue = "") String viewType) {
+		public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
+			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// id로 역순 정렬 모두 조회
 		//		Page<Article> articles = articleRepository.findAll(pageable);
 		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText,
@@ -55,12 +70,10 @@ public class ArticleController {
 		model.addAttribute("articles", articles);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
-		if ("board".equals(viewType)) 
-			return "article/list";
 
-		return "article/main";
+		return "article/list";
 	}
+	
 
 	@GetMapping("view")
 	public String view(Model model, @RequestParam(required = false) Long id) {
