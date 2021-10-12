@@ -63,9 +63,8 @@
               <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
                 aria-expanded="false" th:classappend="${menu}=='my'? 'active'">MY</a>
               <ul class="dropdown-menu" aria-labelledby="dropdown03">
-                <li><a class="dropdown-item" href="#" th:href="@{/my/}">MY HOME</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#" th:href="@{/my/}">마이 피드</a></li>
+                <li><a class="dropdown-item" href="#" th:href="@{/my/info}">정보 수정</a></li>
               </ul>
             </li>
             <!--
@@ -116,6 +115,22 @@
     </section>
 
     <section class="py-5 text-center container" th:fragment="myTopSection">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+
+          <h1 class="fw-light">Welcome MYlog</h1>
+          <p class="lead text-muted">개인페이지에 오신 것을 환영합니다. </p>
+          <!-- button  -->
+          <div class="text-start text-center">
+            <button type="button" class="btn btn-primary" th:href="@{/article/form}"
+              th:onclick="|location.href='@{/article/form}'|">로그 남기기</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 text-center container" th:fragment="myInfoTopSection">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
 

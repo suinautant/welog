@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
+import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
+import com.welog.www.repository.UserRepository;
 import com.welog.www.service.UserService;
 
 @Controller
@@ -21,6 +23,9 @@ public class MyController {
 	
 	@Autowired
 	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private UserService userService;
@@ -43,6 +48,18 @@ public class MyController {
 		model.addAttribute("articles", articles);
 
 		return "my/main";
+	}
+	
+	@GetMapping("/info")
+	public String info(Model model, 
+			Authentication authentication) {
+
+		String currentUsername = authentication.getName();
+//		long userId = userService.getUserIdFindByUsername(currentUsername);
+		User user = userRepository.findByUsername(currentUsername);
+
+		model.addAttribute(user);
+		return "my/info";
 	}
 
 }
