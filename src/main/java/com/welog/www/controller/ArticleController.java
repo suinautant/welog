@@ -96,6 +96,7 @@ public class ArticleController {
 
 	@GetMapping("form")
 	public String form(Model model, @RequestParam(required = false) Long id) {
+
 		if (id == null) {
 			model.addAttribute("article", new Article());
 		} else {
@@ -120,9 +121,8 @@ public class ArticleController {
 		// validator 검증 
 		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
 		articleValidator.validate(article, bindingResult);
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) 
 			return "/article/form";
-		}
 
 		if (id != null) {
 			String articleUsername = article.getUser().getUsername();
