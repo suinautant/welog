@@ -25,7 +25,7 @@ public class User {
 	private Long id;
 
 	// 아이디
-	@UniqueElements
+//	@UniqueElements
 	private String username;
 
 	// 패스워드

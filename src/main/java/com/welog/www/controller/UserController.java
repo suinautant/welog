@@ -1,5 +1,7 @@
 package com.welog.www.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.User;
 import com.welog.www.service.UserService;
@@ -28,12 +31,17 @@ public class UserController {
 	}
 
 	@GetMapping("register")
-	public String register(Model model) {
+	public String register(Model model, 
+			@RequestParam(required = false) Long id) {
+		if (id == null) {
+			model.addAttribute("user", new User());
+		}
+
 		return "account/register";
 	}
 	
 	@PostMapping("register")
-	public String registerPost(User user,
+	public String registerPost(@Valid User user,
 			BindingResult bindingResult) {
 		// validator 검증
 		// UserValidator 확인 후 오류 있을 시 /account/register 리턴

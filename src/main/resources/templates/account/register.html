@@ -49,17 +49,27 @@
           </div>
 
           <div class="modal-body p-5 pt-0">
-            <form class="" th:action="@{/account/register}" method="POST">
+            <form class="" th:action="@{/account/register}" th:object="${user}" method="POST">
               <!-- <input type="hidden" th:field="*{id}" /> -->
               <div class="form-floating mb-3">
                 <input type="text" class="form-control rounded-4" id="floatingInput" placeholder="Username"
-                  name="username">
+                  name="username" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'">
                 <label for="floatingInput">Username</label>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username
+                  error message
+                </div>
+                <!--
+                  <input type="text" class="form-control" id="formGroupSubjectInput" th:field="*{subject}" th:value="${article.subject}"
+                  th:classappend="${#fields.hasErrors('subject')} ? 'is-invalid'" />
+                -->
               </div>
               <div class="form-floating mb-3">
                 <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password"
-                  name="password">
+                  name="password" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
                 <label for="floatingPassword">Password</label>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password
+                  error message
+                </div>
               </div>
               <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
               <!-- <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small> -->
