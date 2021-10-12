@@ -41,26 +41,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsExample03">
-          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
-                aria-expanded="false">Dropdown</a>
-              <ul class="dropdown-menu" aria-labelledby="dropdown03">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
           <form>
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
           </form>
@@ -70,19 +50,22 @@
   </header>
 
   <main>
-    <section class="py-5 text-center container" th:replace="fragments/common :: topSection">
+    <section class="py-5 text-center container" th:replace="fragments/common :: myTopSection">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Welcome WElog</h1>
-          <p class="lead text-muted">WElog에 오신 것을 환영합니다. </p>
+          <h1 class="fw-light">Welcome mylog</h1>
+          <p class="lead text-muted">mylog에 오신 것을 환영합니다. </p>
 
         </div>
       </div>
     </section>
 
+
+
     <div class="album py-5 bg-light">
       <div class="container">
         <!-- 게시물 grid row-cols-md-nums -->
+
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
           <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:each="article : ${articles}"> -->
 
@@ -107,11 +90,11 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <small class="text-muted" th:text="${article.user.username}">name</small>
                   <!--
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                  -->
+                                    <div class="btn-group">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    </div>
+                                  -->
                   <small class="text-muted" th:text="${article.created_date}">9 mins</small>
                 </div>
               </div>
@@ -119,6 +102,7 @@
           </div>
 
         </div>
+
       </div>
     </div>
   </main>

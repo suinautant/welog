@@ -1,5 +1,6 @@
 package com.welog.www.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserService {
 		// 패스워드 암호화
 		String encodePassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodePassword);
+
 		// 계정 활성화 설정
 		user.setEnabled(true);
 		
@@ -33,6 +35,10 @@ public class UserService {
 		user.getRoles().add(role);
 		
 		return userRepository.save(user);
+	}
+	
+	public Long getUserIdFindByUsername(String username) {
+		return userRepository.findByUsername(username).getId();
 	}
 
 }

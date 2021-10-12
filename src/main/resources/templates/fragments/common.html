@@ -59,35 +59,26 @@
               <a class="nav-link" aria-current="page" href="#" th:classappend="${menu}=='home'? 'active'"
                 th:href="@{/}">HOME</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" th:classappend="${menu}=='my'? 'active'" th:href="@{/my/}">MY</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
+                aria-expanded="false" th:classappend="${menu}=='my'? 'active'">MY</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown03">
+                <li><a class="dropdown-item" href="#" th:href="@{/my/}">MY HOME</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </li>
+            <!--
+              <li class="nav-item">
+                <a class="nav-link" href="#" th:classappend="${menu}=='my'? 'active'" th:href="@{/my/}">MY</a>
+              </li>
+            -->
             <li class="nav-item">
               <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
                 th:href="@{/article/list}">BOARD</a>
             </li>
-            <!--
-              <li class="nav-item">
-                <span class="sr-only" th:text="${menu}">(current)</span></a>
-              </li>
-            -->
-            <!--
-            메뉴 비활성화  
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown"
-                aria-expanded="false">Dropdown</a>
-                <ul class="dropdown-menu" aria-labelledby="dropdown03">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-            -->
+            <!-- search (subject, content)  -->
           </ul>
-          <!-- search (subject, content)  -->
           <form th:action="@{/article/}">
             <input class="form-control" type="text" name="searchText" placeholder="Search" aria-label="Search">
           </form>
@@ -96,10 +87,10 @@
             th:onclick="|location.href='@{/account/login}'|" sec:authorize="!isAuthenticated()">로그인</button>
           <button class="btn btn-secondary my-2 my-sm-0 mx-2" th:href="@{/account/register}"
             th:onclick="|location.href='@{/account/register}'|" sec:authorize="!isAuthenticated()">회원가입</button>
+          <!-- <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="POST"> -->
           <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
-            <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" /> -->
             <span class="text-white mx-2" sec:authentication="name">사용자</span>
-            <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span>
+            <!-- <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span> -->
             <button class="btn btn-secondary my-2 my-sm-0 mx-2" type="submit">로그아웃</button>
           </form>
         </div>
@@ -108,11 +99,11 @@
   </header>
 
   <main>
-    <section class="py-5 text-center container" th:fragment="topSection">
+    <section class="py-5 text-center container" th:fragment="homeTopSection">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
 
-          <h1 class="fw-light">Welcome WElog</h1>
+          <h1 class="fw-light">Welcome <span></span> WElog</h1>
           <p class="lead text-muted">WElog에 오신 것을 환영합니다. </p>
           <!-- button  -->
           <div class="text-start text-center">
@@ -123,6 +114,23 @@
         </div>
       </div>
     </section>
+
+    <section class="py-5 text-center container" th:fragment="myTopSection">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+
+          <h1 class="fw-light">Welcome MYlog</h1>
+          <p class="lead text-muted">개인페이지에 오신 것을 환영합니다. </p>
+          <!-- button  -->
+          <div class="text-start text-center">
+            <button type="button" class="btn btn-primary" th:href="@{/article/form}"
+              th:onclick="|location.href='@{/article/form}'|">로그 남기기</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
 
     <div class="album py-5 bg-light">
       <div class="container">
