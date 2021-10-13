@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
@@ -98,9 +99,12 @@ public class ArticleController {
 
 			model.addAttribute("article", article);
 			
-			// 좋아요를 누른 사용자인지 확인 
-			boolean isLikeUser = likeItService.isLikeUser(article, authentication);
-			model.addAttribute("isLikeUser", isLikeUser);
+			// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
+			LikeIt likeIt = new LikeIt();
+			likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
+			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
+
+			model.addAttribute("likeIt", likeIt);
 			
 		}
 		
