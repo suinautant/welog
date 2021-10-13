@@ -22,6 +22,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	@Transactional
 	long deleteByUser_id(Long user_id);
 
+
 //	@Query(value = "SELECT a.id, a.content, a.created_date, a.image_src, a.subject, a.updated_date, a.user_id "
 //			+ "FROM article a LEFT OUTER JOIN user u on a.user_id=u.id "
 //			+ "WHERE a.user_id = 10 "

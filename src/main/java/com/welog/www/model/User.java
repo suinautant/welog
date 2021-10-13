@@ -15,10 +15,16 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
 public class User {
 
 	@Id
@@ -38,7 +44,7 @@ public class User {
 	// 다대다 조인
 	// User 객체에서 Role 객체 제어
 //	@ManyToMany(fetch = FetchType.LAZY)
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(name = "user_role", 
 		joinColumns = @JoinColumn(name = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -56,16 +62,9 @@ public class User {
 	//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	//	private List<Board> boards = new ArrayList<>();
 
-	/*
-	 * CREATE TABLE `user` (
-	 * `id` INT(10) NOT NULL AUTO_INCREMENT,
-	 * `username` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	 * `password` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	 * `enabled` BIT(1) NULL DEFAULT NULL,
-	 * PRIMARY KEY (`id`) USING BTREE
-	 * )
-	 * COLLATE='utf8_general_ci'
-	 * ENGINE=InnoDB
-	 * ;
-	 */
+	// 사용자가 좋아요한 Article
+	@ManyToMany(mappedBy = "likeUsers")
+	@JsonIgnore
+	private List<Article> likeArticle;
+
 }

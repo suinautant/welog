@@ -90,7 +90,9 @@ public class ArticleController {
 			//			}
 
 			model.addAttribute("article", article);
+			System.out.println("$$$$$ likeUsers info : " + article.getLikeUsers());
 		}
+		
 		return "article/view";
 	}
 

@@ -81,25 +81,35 @@ public class MyController {
 	@PostMapping("/inactiveUser")
 	public String inactiveUser(@Valid User user, Authentication authentication) {
 
-//		String currentUsername = authentication.getName();
-//		long userId = userService.getUserIdFindByUsername(currentUsername);
-//		User user = userRepository.findByUsername(currentUsername);
-		
-		System.out.println("@@@@@@@@@@@ user info : " + user);
-		// getEnable toggle
-		if (user.getEnabled()) {
-			userRepository.updateEnabled(user.getId(), false);
-//			user.setEnabled(true);
-		} else  {
-			userRepository.updateEnabled(user.getId(), true);
-//			user.setEnabled(false);
+		String currentUsername = authentication.getName();
+		// 접속자와 요청자가 동일 여부
+		if (currentUsername.equals(user.getUsername())) {
+			// getEnable toggle
+			if (user.getEnabled()) {
+				userRepository.updateEnabled(user.getId(), false);
+			} else  {
+				userRepository.updateEnabled(user.getId(), true);
+			}
 		}
 			
-		// 패스워드 저장시 패스워드 인식 안됨
-//		userRepository.save(user);
-
 		return "redirect:/my/info";
 	}
 	
+	@PostMapping("/leaveUser")
+	public String leaveUser(@Valid User user, Authentication authentication) {
 
+		System.out.println("@@@@@ USER INFO : " + user);
+
+		String currentUsername = authentication.getName();
+		// 접속자와 요청자가 동일 여부
+		if (currentUsername.equals(user.getUsername())) {
+			userRepository.deleteById(user.getId());
+		}
+			
+//		return "redirect:/logout";
+		return "redirect:/";
+		
+	}
+	
+// EOD
 }
