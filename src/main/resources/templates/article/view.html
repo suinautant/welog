@@ -66,8 +66,9 @@
             <div class="mb-3">
               <!-- <div class="mb-1 align-middle"> -->
               <div class="mb-1">
-                <span class="align-middle">
-                  <button type="button" class="btn btn-outline-danger">
+                <!-- like button -->
+                <span class="me-2 align-middle" th:if="${isLikeUser} == true">
+                  <button type="button" class="btn btn-danger">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-heart-fill" viewBox="0 0 16 16">
                       <path fill-rule="evenodd"
@@ -76,7 +77,8 @@
                     <!-- Button -->
                   </button>
                 </span>
-                <span class="me-3 align-middle">
+                <!-- Unlike button -->
+                <span class="me-2 align-middle" th:if="${isLikeUser} == false">
                   <button type="button" class="btn btn-outline-danger">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-heart" viewBox="0 0 16 16">
@@ -86,11 +88,6 @@
                     </svg>
                     <!-- Button -->
                   </button>
-                </span>
-                <span>
-                  <a hre="#" th:href="@{/LikeIt/OK}">
-                    LikeIt OK 테스트 리다이렉트
-                  </a>
                 </span>
                 <span class="fs-3 align-middle" th:text="${article.subject}">
                   제목

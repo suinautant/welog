@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
+import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.service.ArticleService;
+import com.welog.www.service.LikeItService;
 import com.welog.www.validator.ArticleValidator;
 
 @Controller
@@ -35,6 +38,10 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleValidator articleValidator;
+	
+	@Autowired
+	private LikeItService likeItService;
+
 
 	@GetMapping("/")
 	public String main(Model model, Pageable pageable,
@@ -90,7 +97,11 @@ public class ArticleController {
 			//			}
 
 			model.addAttribute("article", article);
-			System.out.println("$$$$$ likeUsers info : " + article.getLikeUsers());
+			
+			// 좋아요를 누른 사용자인지 확인 
+			boolean isLikeUser = likeItService.isLikeUser(article, authentication);
+			model.addAttribute("isLikeUser", isLikeUser);
+			
 		}
 		
 		return "article/view";
