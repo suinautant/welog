@@ -94,8 +94,9 @@
               th:if="${#authentication.name == article.user.username}">modify</button>
             <!-- DELETE REST 사용시 -->
             <!-- <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticleJquery(*{article.id})|" th:text="삭제">delete</a> -->
-            <a class="btn btn-primary me-md-2" type="button" th:onclick="|deleteArticle(*{article.id})|" th:text="삭제"
-              th:if="${#authentication.name == article.user.username}">delete</a>
+            <button class="btn btn-primary me-md-2" type="button"
+              th:onclick="|location.href='@{/article/delete(id=*{article.id})}'|" th:text="삭제"
+              th:if="${#authentication.name == article.user.username}">delete</button>
             <a class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</a>
           </div>
 

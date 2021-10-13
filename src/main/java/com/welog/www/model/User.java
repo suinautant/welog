@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,8 @@ public class User {
 
 	// 다대다 조인
 	// User 객체에서 Role 객체 제어
-	@ManyToMany
+//	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role", 
 		joinColumns = @JoinColumn(name = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id"))

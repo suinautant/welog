@@ -67,12 +67,32 @@
 
         <div class="bg-light p-5 rounded">
           <h1>회원 정보</h1>
-          <div>
+          <div class="my-3">
             사용자명 : <span th:text="${user.username}">username</span>
           </div>
-          <div>
-            <button class="btn btn-secondary my-2 my-sm-0 mx-2" th:text="탈퇴"
-              th:onclick="|@{/my/deleteUser}|">bye</button>
+          <div class="my-3">
+            작성 글 : <span th:text="${countArticleByUser}">00</span>개<br />
+            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/my/deleteAllArticleByUser}">
+              모두 삭제
+            </a>
+          </div>
+          <div class="my-3">
+            계정 상태 : <span th:text="${user.enabled} ?'활성':'비활성'">user</span><br />
+            <form name="activeUser" th:action="@{/my/inactiveUser}" th:object="${user}" method="post">
+              <!-- <input type="text" th:field="*{id}" th:value="*{user.id}" /> -->
+              <!-- <input type="text" th:field="*{username}" th:value="*{user.username}" /> -->
+              <!-- <input type="text" th:field="*{password}" th:value="*{user.password}" /> -->
+              <input type="hidden" th:field="*{id}" th:value="*{id}" />
+              <input type="hidden" th:field="*{username}" th:value="*{username}" />
+              <input type="hidden" th:field="*{enabled}" th:value="*{enabled}" />
+              <!-- <input type="text" th:field="*{password}" th:value="*{password}" /> -->
+
+              <!-- <button type="submit" class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/my/inactiveUser}">계정 -->
+              <a class="my-2 my-sm-0 mx-2 bg-danger text-white" href="#" th:onclick="document.activeUser.submit()"
+                th:text="${user.enabled} ? '계정정지':'계정활성화'">계정
+                정지</a>&nbsp;(현재 접속은 유지
+              되지만, 재접속시 로그인이 거부됩니다.)
+            </form>
           </div>
         </div>
 
