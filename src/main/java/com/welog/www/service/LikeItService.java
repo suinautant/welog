@@ -19,22 +19,15 @@ public class LikeItService {
 
 			String currentUser = authentication.getName();
 			if (currentUser.equals(likeUser.getUsername())) {
-//				likeIt.setLikeUser(true);
-				// FOR-TEST
-//				System.out.println("$$$$$$$$$$ must true : " + likeIt.isLikeUser());
 				return true;
 			}
 		}
-
-//		likeIt.setLikeUser(false);
 		return false;
 	}
 
 	public int countLikeUser(Article article) {
-
 		List<User> likeUsers = article.getLikeUsers();
 		return likeUsers.size();
-
 	}
 
 }
