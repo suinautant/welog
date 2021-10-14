@@ -68,48 +68,5 @@ public class MyController {
 		return "my/info";
 	}
 	
-	@GetMapping("/deleteAllArticleByUser")
-	public String deleteAllArticleByUser(Authentication authentication) {
-
-		String currentUsername = authentication.getName();
-		long userId = userService.getUserIdFindByUsername(currentUsername);
-		articleRepository.deleteByUser_id(userId);
-		
-		return "redirect:/my/info";
-	}
-	
-	@PostMapping("/inactiveUser")
-	public String inactiveUser(@Valid User user, Authentication authentication) {
-
-		String currentUsername = authentication.getName();
-		// 접속자와 요청자가 동일 여부
-		if (currentUsername.equals(user.getUsername())) {
-			// getEnable toggle
-			if (user.getEnabled()) {
-				userRepository.updateEnabled(user.getId(), false);
-			} else  {
-				userRepository.updateEnabled(user.getId(), true);
-			}
-		}
-			
-		return "redirect:/my/info";
-	}
-	
-	@PostMapping("/leaveUser")
-	public String leaveUser(@Valid User user, Authentication authentication) {
-
-		System.out.println("@@@@@ USER INFO : " + user);
-
-		String currentUsername = authentication.getName();
-		// 접속자와 요청자가 동일 여부
-		if (currentUsername.equals(user.getUsername())) {
-			userRepository.deleteById(user.getId());
-		}
-			
-//		return "redirect:/logout";
-		return "redirect:/";
-		
-	}
-	
 // EOD
 }

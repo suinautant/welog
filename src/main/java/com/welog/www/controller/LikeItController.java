@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.welog.www.model.User;
 import com.welog.www.repository.LikeItRepository;
 import com.welog.www.repository.UserRepository;
+import com.welog.www.service.UserService;
 
 @Controller
 @RequestMapping("/LikeIt")
@@ -23,6 +24,7 @@ public class LikeItController {
 	@Autowired
 	private UserRepository userRepository;
 
+
 	@GetMapping("/add")
 	public String add(Authentication authentication, @RequestParam(required = false) Long articleId,
 			HttpServletRequest request) {
@@ -30,6 +32,7 @@ public class LikeItController {
 		String referer         = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
 		User   user            = userRepository.findByUsername(currentUsername);
+//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
 
 		likeItRepository.likeItAdd(articleId, user.getId());
 
@@ -43,17 +46,19 @@ public class LikeItController {
 		String referer         = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
 		User   user            = userRepository.findByUsername(currentUsername);
+//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
 
 		likeItRepository.likeItRemove(articleId, user.getId());
 
-		// FOR-TEST
-		System.out.println("$$$$$$$$$$$$$$$$$$$$ articleID : " + articleId);
-		System.out.println("$$$$$$$$$$$$$$$$$$$$ user.getId() : " + user.getId());
-		System.out.println("$$$$$$$$$$$$$$$$$$$$ username : " + currentUsername);
-		System.out.println("$$$$$$$$$$$$$$$$$$$$ user class : " + user);
-
 		return "redirect:" + referer;
 	}
+	
+	@GetMapping("/deleteAllByUser")
+	public String deleteAllByUser() {
 
+		return "";
+	}
+	
+// EOD
 }
 

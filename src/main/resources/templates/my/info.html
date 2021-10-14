@@ -72,13 +72,20 @@
           </div>
           <div class="my-3">
             작성 글 : <span th:text="${countArticleByUser}">00</span>개<br />
-            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/my/deleteAllArticleByUser}">
+            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/article/deleteAllArticleByUser}">
               모두 삭제
             </a>
           </div>
           <div class="my-3">
+            좋아요 : <span th:text="${countArticleByUser}">00</span>개<br />
+            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/my/deleteAllByUser}">
+              모두 삭제
+            </a>
+          </div>
+
+          <div class="my-3">
             계정 상태 : <span th:text="${user.enabled} ?'활성':'비활성'">active</span><br />
-            <form name="activeUser" th:action="@{/my/inactiveUser}" th:object="${user}" method="post">
+            <form name="activeUser" th:action="@{/account/inactiveUser}" th:object="${user}" method="post">
               <input type="hidden" th:field="*{id}" th:value="*{id}" />
               <input type="hidden" th:field="*{username}" th:value="*{username}" />
               <input type="hidden" th:field="*{enabled}" th:value="*{enabled}" />
@@ -89,12 +96,12 @@
           </div>
           <div class="my-3">
             탈퇴
-            <form name="leaveUser" th:action="@{/my/leaveUser}" th:object="${user}" method="post">
+            <form name="leaveUser" th:action="@{/account/leaveUser}" th:object="${user}" method="post">
               <input type="hidden" th:field="*{id}" th:value="*{id}" />
               <input type="hidden" th:field="*{username}" th:value="*{username}" />
 
               <a class="my-2 my-sm-0 mx-2 bg-danger text-white" href="#" th:onclick="document.leaveUser.submit()"
-                th:text="'탈퇴하기'"></a>
+                th:text="'탈퇴하기'">leave</a>
             </form>
           </div>
 

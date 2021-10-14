@@ -25,6 +25,7 @@ import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.service.ArticleService;
 import com.welog.www.service.LikeItService;
+import com.welog.www.service.UserService;
 import com.welog.www.validator.ArticleValidator;
 
 @Controller
@@ -42,6 +43,9 @@ public class ArticleController {
 	
 	@Autowired
 	private LikeItService likeItService;
+	
+	@Autowired
+	private UserService userService;
 
 
 	@GetMapping("/")
@@ -166,6 +170,16 @@ public class ArticleController {
 			articleRepository.deleteById(id);
 
 		return "redirect:/";
+	}
+	
+	@GetMapping("/deleteAllArticleByUser")
+	public String deleteAllArticleByUser(Authentication authentication) {
+
+		String currentUsername = authentication.getName();
+		long userId = userService.getUserIdFindByUsername(currentUsername);
+		articleRepository.deleteByUser_id(userId);
+		
+		return "redirect:/my/info";
 	}
 
 }

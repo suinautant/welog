@@ -2,6 +2,10 @@
 
 - 게시물 삭제
 
+- 탈퇴 후 로그아웃
+ - /account/logout 시 정상 작동 안됨
+ - csrf 활용한 form 필요
+
 - 개인 페이지
  , 본인 게시물 검색
  , 검색 기능 포함한 findByUser_id 구현
