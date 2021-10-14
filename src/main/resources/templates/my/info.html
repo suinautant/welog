@@ -71,16 +71,15 @@
             사용자명 : <span th:text="${user.username}">username</span>
           </div>
           <div class="my-3">
-            작성 글 : <span th:text="${countArticleByUser}">00</span>개<br />
+            작성 글 : <span th:text="${countArticleByUser}">00</span>개
+            &nbsp;&nbsp;(<a href="#" th:href="@{/my/}">모두보기</a>)<br />
             <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/article/deleteAllArticleByUser}">
               모두 삭제
             </a>
           </div>
           <div class="my-3">
-            좋아요 : <span th:text="${countArticleByUser}">00</span>개<br />
-            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/my/deleteAllByUser}">
-              모두 삭제
-            </a>
+            좋아요 : <span th:text="${countLikeItByUser}">00</span>개
+            &nbsp;&nbsp;(<a href="#" th:href="@{/my/like}">모두보기</a>)<br />
           </div>
 
           <div class="my-3">
@@ -101,7 +100,7 @@
               <input type="hidden" th:field="*{username}" th:value="*{username}" />
 
               <a class="my-2 my-sm-0 mx-2 bg-danger text-white" href="#" th:onclick="document.leaveUser.submit()"
-                th:text="'탈퇴하기'">leave</a>
+                th:text="'탈퇴하기'">leave</a>&nbsp;(탈퇴시 작성한 모든 글을 삭제됩니다.)
             </form>
           </div>
 
