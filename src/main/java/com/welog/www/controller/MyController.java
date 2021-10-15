@@ -59,16 +59,16 @@ public class MyController {
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
 		User   user            = userRepository.findByUsername(currentUsername);
+
 		// 작성 글 총합
 		Long countArticleByUser = articleRepository.countByUser_id(userId);
+		model.addAttribute("countArticleByUser", countArticleByUser);
+
 		// 좋아요 총합
 		int countLikeItByUser = likeItRepository.countLikeItByUser(userId);
+		model.addAttribute("countLikeItByUser", countLikeItByUser);
 
 		model.addAttribute("user", user);
-		// 작성 글 총합
-		model.addAttribute("countArticleByUser", countArticleByUser);
-		// 좋아요 총합
-		model.addAttribute("countLikeItByUser", countLikeItByUser);
 
 		return "my/info";
 	}
@@ -78,19 +78,10 @@ public class MyController {
 
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
-
 		List<Article> articles = likeItRepository.findByLikeItUser(userId);
-		// FOR-TEST
-		System.out.println("$$$$$$$$$$$$$ articles : " + articles);
-		for (Article article : articles) {
-			System.out.println("$$$$$$$$$$$$$ - article : " + article);
-			System.out.println("$$$$$$$$$$$$$ - " + article.getId() + article.getSubject() + article.getContent() + article.getImage_src() + article.getCreated_date() + article.getUpdated_date());
-		}
-		
 		model.addAttribute("articles", articles);
 
 		return "my/like";
-
 	}
 
 	// EOD

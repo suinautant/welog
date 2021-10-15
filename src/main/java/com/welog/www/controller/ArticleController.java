@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,13 +39,12 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleValidator articleValidator;
-	
+
 	@Autowired
 	private LikeItService likeItService;
-	
+
 	@Autowired
 	private UserService userService;
-
 
 	@GetMapping("/")
 	public String main(Model model, Pageable pageable,
@@ -55,7 +53,6 @@ public class ArticleController {
 		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
 
 		model.addAttribute("articles", articles);
-
 		return "article/main";
 	}
 
@@ -102,16 +99,16 @@ public class ArticleController {
 			//			}
 
 			model.addAttribute("article", article);
-			
+
 			// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
 			LikeIt likeIt = new LikeIt();
 			likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
 			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
 
 			model.addAttribute("likeIt", likeIt);
-			
+
 		}
-		
+
 		return "article/view";
 	}
 
@@ -119,7 +116,10 @@ public class ArticleController {
 	public String form(Model model, @RequestParam(required = false) Long id) {
 
 		if (id == null) {
-			model.addAttribute("article", new Article());
+			Article article = new Article();
+			article.setLikehit(0l);
+			model.addAttribute(article);
+//			model.addAttribute("article", new Article());
 		} else {
 			Article article = articleRepository.findById(id).orElse(null);
 
@@ -136,23 +136,28 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(@Valid Article article, @RequestParam(required = false) Long id,
-			BindingResult bindingResult, Authentication authentication) {
+	public String formPost(@Valid Article article, @RequestParam(required = false) Long id, BindingResult bindingResult,
+			Authentication authentication) {
 
 		// validator 검증 
 		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
 		articleValidator.validate(article, bindingResult);
-		if (bindingResult.hasErrors()) 
+		if (bindingResult.hasErrors())
 			return "/article/form";
 
+		// 수정
 		if (id != null) {
 			String articleUsername = article.getUser().getUsername();
 			String currentUsername = authentication.getName();
-			
+
 			// 사용자 인증 : 원글 사용자 아니면 리다이렉트
-			if (!currentUsername.equals(articleUsername))
-				return "redirect:/";
+//			if (!currentUsername.equals(articleUsername))
+//				return "redirect:/";
 		}
+
+		// 새로 만들 때
+//		if (article.getLikehit() == null)
+//			article.setLikehit(0l);
 
 		String username = authentication.getName();
 		articleService.save(username, article);
@@ -171,14 +176,14 @@ public class ArticleController {
 
 		return "redirect:/";
 	}
-	
+
 	@GetMapping("/deleteAllArticleByUser")
 	public String deleteAllArticleByUser(Authentication authentication) {
 
 		String currentUsername = authentication.getName();
-		long userId = userService.getUserIdFindByUsername(currentUsername);
+		long   userId          = userService.getUserIdFindByUsername(currentUsername);
 		articleRepository.deleteByUser_id(userId);
-		
+
 		return "redirect:/my/info";
 	}
 

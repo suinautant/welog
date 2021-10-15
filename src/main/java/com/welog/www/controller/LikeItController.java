@@ -26,7 +26,9 @@ public class LikeItController {
 
 
 	@GetMapping("/add")
-	public String add(Authentication authentication, @RequestParam(required = false) Long articleId,
+	public String add(Authentication authentication, 
+			@RequestParam(required = false) Long articleId,
+			@RequestParam(required = false) Long likehit,
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
@@ -35,12 +37,14 @@ public class LikeItController {
 //		User user = userService.getUserFindByCurrentUsername(authentication.getName());
 
 		likeItRepository.likeItAdd(articleId, user.getId());
+		likeItRepository.likeItAddCount(articleId, likehit+1);
 
 		return "redirect:" + referer;
 	}
 
 	@GetMapping("/remove")
 	public String remove(Authentication authentication, @RequestParam(required = false) Long articleId,
+			@RequestParam(required = false) Long likehit,
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
@@ -49,6 +53,7 @@ public class LikeItController {
 //		User user = userService.getUserFindByCurrentUsername(authentication.getName());
 
 		likeItRepository.likeItRemove(articleId, user.getId());
+		likeItRepository.likeItAddCount(articleId, likehit-1);
 
 		return "redirect:" + referer;
 	}

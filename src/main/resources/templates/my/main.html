@@ -2,125 +2,27 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common :: head('mylog - WElog')">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
-  <title th:text="${title}">Main Page</title>
-
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-
-</head>
+<head th:include="fragments/common :: head('mylog - WElog')"> </head>
 
 <body>
-
-  <header th:replace="fragments/common :: header(menu='my')">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Expand at sm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03"
-          aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExample03">
-          <form>
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-          </form>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <!-- header -->
+  <header id="commonHeaderNavSticky" th:include="fragments/common :: header(menu='my')"> </header>
 
   <main>
-    <section class="py-5 text-center container" th:replace="fragments/common :: myTopSection">
-      <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Welcome mylog</h1>
-          <p class="lead text-muted">mylog에 오신 것을 환영합니다. </p>
-
-        </div>
-      </div>
-    </section>
-
-
+    <!-- Top Section -->
+    <section class="py-5 text-center container" th:include="fragments/common :: myTopSection"> </section>
 
     <div class="album py-5 bg-light">
       <div class="container">
-        <!-- 게시물 grid row-cols-md-nums -->
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-          <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:each="article : ${articles}"> -->
-
-          <!-- <div class="col"> -->
-          <div class="col" th:each="article : ${articles}">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <!-- 이미지에 마우스 올라가 있는 동안 표시되는 문구 title태그 -->
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                  dy=".3em">Thumbnail</text>
-              </svg>
-
-              <div class="card-body card">
-                <h5 class="card-title">
-                  <a href="#" th:text="${article.subject}" th:href="@{/article/view(id=${article.id})}">subject</a>
-                </h5>
-                <p class="card-text" th:text="${article.content}">This is test article.
-                  This is a wider card with supporting text below as a natural lead-in to additional
-                  content. This content is a little bit longer.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted" th:text="${article.user.username}">name</small>
-                  <!--
-                                    <div class="btn-group">
-                                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                  -->
-                  <small class="text-muted" th:text="${article.created_date}">9 mins</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
+        <!-- 게시물  -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:include="fragments/article :: articleList"></div>
 
       </div>
     </div>
   </main>
 
-  <footer class="text-muted py-5" th:replace="fragments/common :: footer">
-    <div class="container">
-      <p class="float-end mb-1">
-        <a href="#">Back to top</a>
-      </p>
-      <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-      <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
-          href="/docs/5.1/getting-started/introduction/">getting started guide</a></p>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-      crossorigin="anonymous"></script>
-  </footer>
+  <!-- footer -->
+  <footer class="text-muted py-5" th:include="fragments/common :: footer"> </footer>
 </body>
 
 </html>

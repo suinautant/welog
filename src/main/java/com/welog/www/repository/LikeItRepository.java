@@ -18,6 +18,14 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			+ " VALUES (?1, ?2)", 
 			nativeQuery = true)
 	void likeItAdd(Long articleId, Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE article"
+			+ " SET likehit = ?2"
+			+ " WHERE id = ?1",
+			nativeQuery = true)
+	void likeItAddCount(Long articleId, Long likehit);
 
 	@Transactional
 	@Modifying
@@ -26,6 +34,8 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			nativeQuery = true)
 	void likeItRemove(Long articleId, Long userId);
 
+	@Transactional
+	@Modifying
 	@Query(value = "SELECT COUNT(*)"
 			+ " FROM like_article_user"
 			+ " WHERE user_id=?1", 
