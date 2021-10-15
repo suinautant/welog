@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.welog.www.model.Article;
 import com.welog.www.model.User;
+import com.welog.www.repository.ArticleRepository;
 import com.welog.www.repository.LikeItRepository;
 import com.welog.www.repository.UserRepository;
 import com.welog.www.service.UserService;
@@ -24,46 +26,50 @@ public class LikeItController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private ArticleRepository articleRepository;
 
 	@GetMapping("/add")
-	public String add(Authentication authentication, 
-			@RequestParam(required = false) Long articleId,
-			@RequestParam(required = false) Long likehit,
+	public String add(Authentication authentication, @RequestParam(required = false) Long articleId,
+			//			@RequestParam(required = false) Long likehit,
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
 		User   user            = userRepository.findByUsername(currentUsername);
-//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+		//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+
+		Article article = articleRepository.findById(articleId).orElse(null);
 
 		likeItRepository.likeItAdd(articleId, user.getId());
-		likeItRepository.likeItAddCount(articleId, likehit+1);
+		likeItRepository.likeItAddCount(articleId, article.getLikehit() + 1);
 
 		return "redirect:" + referer;
 	}
 
 	@GetMapping("/remove")
 	public String remove(Authentication authentication, @RequestParam(required = false) Long articleId,
-			@RequestParam(required = false) Long likehit,
+//			@RequestParam(required = false) Long likehit, 
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
 		User   user            = userRepository.findByUsername(currentUsername);
-//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+		//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+
+		Article article = articleRepository.findById(articleId).orElse(null);
 
 		likeItRepository.likeItRemove(articleId, user.getId());
-		likeItRepository.likeItAddCount(articleId, likehit-1);
+		likeItRepository.likeItAddCount(articleId, article.getLikehit() - 1);
 
 		return "redirect:" + referer;
 	}
-	
+
 	@GetMapping("/deleteAllByUser")
 	public String deleteAllByUser() {
 
 		return "";
 	}
-	
-// EOD
-}
 
+	// EOD
+}

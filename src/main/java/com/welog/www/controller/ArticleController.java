@@ -119,7 +119,7 @@ public class ArticleController {
 			Article article = new Article();
 			article.setLikehit(0l);
 			model.addAttribute(article);
-//			model.addAttribute("article", new Article());
+			//			model.addAttribute("article", new Article());
 		} else {
 			Article article = articleRepository.findById(id).orElse(null);
 
@@ -151,13 +151,9 @@ public class ArticleController {
 			String currentUsername = authentication.getName();
 
 			// 사용자 인증 : 원글 사용자 아니면 리다이렉트
-//			if (!currentUsername.equals(articleUsername))
-//				return "redirect:/";
+			if (!currentUsername.equals(articleUsername))
+				return "redirect:/";
 		}
-
-		// 새로 만들 때
-//		if (article.getLikehit() == null)
-//			article.setLikehit(0l);
 
 		String username = authentication.getName();
 		articleService.save(username, article);

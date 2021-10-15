@@ -34,8 +34,6 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			nativeQuery = true)
 	void likeItRemove(Long articleId, Long userId);
 
-	@Transactional
-	@Modifying
 	@Query(value = "SELECT COUNT(*)"
 			+ " FROM like_article_user"
 			+ " WHERE user_id=?1", 
@@ -48,7 +46,7 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 //	ON l.article_id =a.id
 //	WHERE l.user_id = 10;
 	@Query(value = "SELECT"
-			+ " a.id, a.user_id, a.subject, a.content, a.image_src,"
+			+ " a.id, a.user_id, a.subject, a.content, a.image_src, a.likehit,"
 			+ " a.created_date, a.updated_date"
 			+ " FROM like_article_user l"
 			+ " LEFT JOIN article a"
