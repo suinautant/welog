@@ -17,6 +17,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	List<Article> findBySubjectContainingOrContentContaining(String subject, String content);
 	List<Article> findByUser_id(Long id);
 	
+	List<Article> findTop4ByOrderByLikehitDesc();
+	
 	long countByUser_id(Long user_id);
 
 	@Transactional

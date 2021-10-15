@@ -51,7 +51,13 @@ public class ArticleController {
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// 페이징 기능 삭제 - 메인용
 		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+		
+		// 좋아요 랭킹 상위 4개
+		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
+		
+		System.out.println("$$$$$$$$$$$ likeArticles : " + likeArticles);
 
+		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
 		return "article/main";
 	}

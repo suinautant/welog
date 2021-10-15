@@ -48,6 +48,51 @@
   <main>
 
 
+    <!-- 좋아요 순위 게시물 -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:fragment="likeRangingArticleList">
+      <div class="col" th:each="article : ${likeArticles}">
+        <div class="card shadow-sm">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+            role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <!-- 이미지에 마우스 올라가 있는 동안 표시되는 문구 title태그 -->
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+              dy=".3em">Thumbnail</text>
+          </svg>
+
+          <div class="card-body card">
+            <h5 class="card-title">
+              <a href="#" th:text="${article.subject}" th:href="@{/article/view(id=${article.id})}">subject</a>
+            </h5>
+            <p class="card-text" th:text="${article.content}">This is test article.
+              This is a wider card with supporting text below as a natural lead-in to additional
+              content. This content is a little bit longer.</p>
+            <div>
+              <small class="text-muted" th:text="${article.created_date}">9 mins</small>
+              <small class="text-muted">comment</small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"
+                th:text="${article.user.username} == null ? 'true' : ${article.user.username}">name</small>
+              <small class="text-danger align-bottom">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-suit-heart-fill align-bottom " viewBox="0 0 16 16">
+                  <path
+                    d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
+                  </path>
+                </svg>
+                <!-- <span th:text="${#lists.size(article.likeUsers)}"> -->
+                <span th:text="${article.likehit}">
+                  10
+                </span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- 게시물 -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:fragment="articleList">
       <div class="col" th:each="article : ${articles}">
