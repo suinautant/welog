@@ -145,23 +145,22 @@
           <!-- 댓글 작성 -->
           <div class="container" sec:authorize="isAuthenticated()">
             <div class="my-3 p-3 bg-body rounded shadow-sm">
-              <div class="d-flex justify-content-between">
-                <form action="#" th:action="@{/comment/write}" th:object="${comment}" method="post">
+              <form action="#" th:action="@{/comment/write}" th:object="${comment}" method="post">
+                <input type="hidden" name="article_id" th:value="${article.id}">
+                <!-- user_id 넘겨줄 방법 -->
+                <input type="hidden" name="username" th:field="*{username}" th:value="${#authentication.name}">
+                <div class="d-flex justify-content-between">
                   <div class="col-md-2 mb-1 text-center">
-                    <span>
-                    </span>
+                    <span>댓글 작성</span>
                   </div>
                   <div class="col-md-8">
-                    <textarea></textarea>
+                    <!-- <textarea name="content" th:field="*{content}" cols="95" rows="3"></textarea> -->
                   </div>
-                  <div class="col-md-2 text-center row align-items-center">
-                    <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
-                    <!-- <button class="btn btn-sm btn-outline-secondary" type="button" -->
-                    <!-- th:onclick="|location.href='@{/comment/form(id=${comment.id})}'|" th:text="수정">modify</button> -->
-                    <button type="submit" class="btn btn-sm btn-outline-secondary">작성</button>
+                  <div class="col-md-2 text-center row align-items-center px-3 mb-1">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary py-4">&nbsp;작성&nbsp;</button>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
 

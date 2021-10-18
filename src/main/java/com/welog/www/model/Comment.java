@@ -26,6 +26,8 @@ public class Comment {
 	
 	private String content;
 	
+	private String username;
+	
 	@Column(insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime created_date;
 	
