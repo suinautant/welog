@@ -12,17 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.welog.www.model.Article;
 import com.welog.www.model.Comment;
-import com.welog.www.model.User;
-import com.welog.www.repository.ArticleRepository;
-import com.welog.www.repository.CommentRepository;
-import com.welog.www.repository.UserRepository;
 import com.welog.www.service.CommentService;
-import com.welog.www.validator.ArticleValidator;
 import com.welog.www.validator.CommentValidator;
 
-import ch.qos.logback.core.joran.conditional.ThenOrElseActionBase;
 
 @Controller
 @RequestMapping("/comment")
@@ -47,7 +40,20 @@ public class CommentController {
 		commentService.save(comment, articleId, userId);
 
 		return "redirect:" + referer;
-
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam(required = false) Long commentId, 
+			@RequestParam(required = false) Long userId,
+			Authentication authentication,
+			HttpServletRequest request) {
+		
+		String referer = request.getHeader("Referer");
+		String currentUsername = authentication.getName();
+		
+		commentService.delete(commentId, userId, currentUsername);
+		
+		return "redirect:" + referer;
 	}
 
 }

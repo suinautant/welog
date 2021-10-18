@@ -223,7 +223,7 @@
                                             <button
                                                 class="btn btn-sm btn-outline-secondary"
                                                 type="button"
-                                                th:onclick="|location.href='@{/comment/delete(id=*{comment.id})}'|"
+                                                th:onclick="|location.href='@{/comment/delete(commentId=*{comment.id}, userId=*{user.id})}'|"
                                                 th:text="삭제"
                                             >
                                                 delete
