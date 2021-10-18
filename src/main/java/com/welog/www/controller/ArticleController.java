@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
+import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.service.ArticleService;
@@ -55,7 +56,7 @@ public class ArticleController {
 		// 좋아요 랭킹 상위 4개
 		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
 
-//		System.out.println("$$$$$$$$$$$ likeArticles : " + likeArticles);
+		//		System.out.println("$$$$$$$$$$$ likeArticles : " + likeArticles);
 
 		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
@@ -95,16 +96,12 @@ public class ArticleController {
 			if (article == null) {
 				return "redirect:/article/list";
 			}
-
-			// 로그인 상태면 사용자 정보 넘기기
-			// 버튼 감추고 서버 요청시 확인
-			//			String currentUsername;
-			//			if (authentication != null) {
-			//				currentUsername = authentication.getName();
-			//				model.addAttribute("currentUsername", currentUsername);
-			//			}
-
 			model.addAttribute("article", article);
+
+			// 댓글
+			List<Comment> comments = article.getComments();
+//			System.out.println("comments : " + comments);
+			model.addAttribute("comments", comments);
 
 			// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
 			LikeIt likeIt = new LikeIt();
@@ -112,7 +109,6 @@ public class ArticleController {
 				likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
 			}
 			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
-
 			model.addAttribute("likeIt", likeIt);
 
 		}

@@ -77,7 +77,7 @@
                     </svg>
                     <span th:text="${likeIt.countLikeUser}">&nbsp;count</span>
                     <!-- Button -->
-                    </a>
+                  </button>
                 </span>
                 <!-- like button -->
                 <span class="me-2 align-middle" th:if="${likeIt.isLikeUser} == true" sec:authorize="isAuthenticated()">
@@ -138,7 +138,61 @@
             <button class="btn btn-primary me-md-2" type="button"
               th:onclick="|location.href='@{/article/delete(id=*{article.id})}'|" th:text="삭제"
               th:if="${#authentication.name == article.user.username}">delete</button>
-            <a class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</a>
+            <button class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</button>
+          </div>
+
+
+          <!-- 댓글 작성 -->
+          <div class="container" sec:authorize="isAuthenticated()">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+              <div class="d-flex justify-content-between">
+                <form action="#" th:action="@{/comment/write}" th:object="${comment}" method="post">
+                  <div class="col-md-2 mb-1 text-center">
+                    <span>
+                    </span>
+                  </div>
+                  <div class="col-md-8">
+                    <textarea></textarea>
+                  </div>
+                  <div class="col-md-2 text-center row align-items-center">
+                    <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
+                    <!-- <button class="btn btn-sm btn-outline-secondary" type="button" -->
+                    <!-- th:onclick="|location.href='@{/comment/form(id=${comment.id})}'|" th:text="수정">modify</button> -->
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">작성</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- 댓글 목록 -->
+          <div class="container" th:each="comment : ${comments}">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+              <div class="d-flex justify-content-between">
+                <div class="col-md-2 mb-1 text-center">
+                  <span th:text="${comment.user.username}">
+                    사용자
+                  </span><br />
+                  <span class="text-muted" th:text=" ${comment.created_date}">
+                    날짜
+                  </span>
+                </div>
+                <div class="col-md-8">
+                  <pre th:text="${comment.content}">
+                  내용
+                  </pre>
+                </div>
+                <div class="col-md-2 text-center row align-items-center">
+                  <div class="btn-group" th:if="${#authentication.name == comment.user.username}">
+                    <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
+                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                      th:onclick="|location.href='@{/comment/form(id=${comment.id})}'|" th:text="수정">modify</button>
+                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                      th:onclick="|location.href='@{/comment/delete(id=*{comment.id})}'|" th:text="삭제">delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>

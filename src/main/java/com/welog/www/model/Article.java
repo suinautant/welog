@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -63,5 +64,8 @@ public class Article {
 		joinColumns = @JoinColumn(name = "article_id"), 
 		inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> likeUsers = new ArrayList<>();
-
+	
+	// article_id에 의한 댓글 목록
+	@OneToMany(mappedBy = "article", orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
 }

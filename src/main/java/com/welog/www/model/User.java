@@ -66,5 +66,9 @@ public class User {
 	@ManyToMany(mappedBy = "likeUsers")
 	@JsonIgnore
 	private List<Article> likeArticle;
+	
+	// article_id에 의한 댓글 목록
+	@OneToMany(mappedBy = "user", orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
 
 }
