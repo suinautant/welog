@@ -25,8 +25,8 @@ public class Comment {
 	private Long id;
 	
 	private String content;
-	
-	private String username;
+
+//	private String username;
 	
 	@Column(insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime created_date;
