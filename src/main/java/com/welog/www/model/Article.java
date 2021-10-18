@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -67,5 +68,6 @@ public class Article {
 	
 	// article_id에 의한 댓글 목록
 	@OneToMany(mappedBy = "article", orphanRemoval = true)
+	@OrderBy("created_date DESC")
 	private List<Comment> comments = new ArrayList<>();
 }

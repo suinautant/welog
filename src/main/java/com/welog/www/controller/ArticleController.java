@@ -105,7 +105,6 @@ public class ArticleController {
 
 			// 댓글
 			List<Comment> comments = article.getComments();
-//			System.out.println("comments : " + comments);
 			model.addAttribute("comments", comments);
 
 			// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
