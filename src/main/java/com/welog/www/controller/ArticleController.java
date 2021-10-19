@@ -25,6 +25,7 @@ import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.repository.UserRepository;
 import com.welog.www.service.ArticleService;
+import com.welog.www.service.CommentService;
 import com.welog.www.service.LikeItService;
 import com.welog.www.service.UserService;
 import com.welog.www.validator.ArticleValidator;
@@ -43,6 +44,9 @@ public class ArticleController {
 	private ArticleValidator articleValidator;
 
 	@Autowired
+	private CommentService commentService;
+
+	@Autowired
 	private LikeItService likeItService;
 
 	@Autowired
@@ -55,8 +59,9 @@ public class ArticleController {
 	public String main(Model model, Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// 페이징 기능 삭제 - 메인용
-//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
-		List<Article> articles = articleRepository.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
+		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+		List<Article> articles = articleRepository
+				.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
 
 		// 좋아요 랭킹 상위 4개
 		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
@@ -90,7 +95,9 @@ public class ArticleController {
 	}
 
 	@GetMapping("view")
-	public String view(Model model, @RequestParam(required = false) Long id, Authentication authentication) {
+	public String view(Model model, @RequestParam(required = false) Long id,
+			@RequestParam(required = false) Long commentId, @RequestParam(required = false) String commentMode,
+			Authentication authentication) {
 
 		if (id != null) {
 			Article article = articleRepository.findById(id).orElse(null);
@@ -112,16 +119,25 @@ public class ArticleController {
 			}
 			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
 			model.addAttribute("likeIt", likeIt);
-			
+
 			// 로그인시 유저 정보
 			if (authentication != null) {
 				String currentUsername = authentication.getName();
 				User   user            = userRepository.findByUsername(currentUsername);
-				model.addAttribute(user);
+				model.addAttribute("user", user);
 			}
 
 			Comment comment = new Comment();
-			model.addAttribute(comment);
+			model.addAttribute("comment", comment);
+
+			if (commentMode == null) {
+				commentMode = "write";
+				model.addAttribute("commentMode", commentMode);
+			} else if (commentMode.equals("edit")) {
+				Comment editComment = commentService.findById(commentId);
+				model.addAttribute("editComment", editComment);
+				model.addAttribute("commentMode", commentMode);
+			}
 		}
 
 		return "article/view";
@@ -133,7 +149,7 @@ public class ArticleController {
 		if (id == null) {
 			Article article = new Article();
 			article.setLikehit(0l);
-			model.addAttribute(article);
+			model.addAttribute("article", article);
 			//			model.addAttribute("article", new Article());
 		} else {
 			Article article = articleRepository.findById(id).orElse(null);

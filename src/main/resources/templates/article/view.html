@@ -134,8 +134,9 @@
             <button class="btn btn-primary" type="button" th:text="목록" onclick="history.back()">list</button>
           </div>
 
+
           <!-- 댓글 작성 -->
-          <div class="container" sec:authorize="isAuthenticated()">
+          <div class="container" sec:authorize="isAuthenticated()" th:if="${commentMode} == 'write'">
             <div class="my-3 p-3 bg-body rounded shadow-sm">
               <form action="#" th:action="@{/comment/write}" th:object="${comment}" method="post">
                 <input type="hidden" name="articleId" th:value="${article.id}" />
@@ -147,7 +148,36 @@
                   <div class="col-md-8 form-floating">
                     <textarea class="form-control" id="floatingTextarea" style="height: 100px"
                       th:field="*{content}"></textarea>
-                    <label for="floatingTextarea">Comments</label>
+                    <label for="floatingTextarea">작성</label>
+                  </div>
+                  <div class="col-md-2 text-center row align-items-center px-3 mb-1">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary py-4">&nbsp;작성&nbsp;</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- 댓글 수정 -->
+          <div class="container" sec:authorize="isAuthenticated()" th:if="${commentMode} == 'edit'">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+              <form action="#" th:action="@{/comment/edit}" th:object="${editComment}" method="post">
+                <!-- request param -->
+                <input type="hidden" name="articleId" th:value="${article.id}" />
+                <input type="hidden" name="userId" th:value="${user.id}" />
+                <input type="hidden" name="commentmode" th:value="${commentMode}" />
+                <!-- object variables -->
+                <input type="hidden" name="id" th:field="*{id}" th:value="${editComment.id}" />
+                <input type="hidden" name="createdDate" th:field="*{createdDate}"
+                  th:value="${editComment.createdDate}" />
+                <div class="d-flex justify-content-between">
+                  <div class="col-md-2 mb-1 text-center">
+                    <span></span>
+                  </div>
+                  <div class="col-md-8 form-floating">
+                    <textarea class="form-control" id="floatingTextarea" style="height: 100px" th:field="*{content}"
+                      th:text="${editComment.content}"></textarea>
+                    <label for="floatingTextarea">수정</label>
                   </div>
                   <div class="col-md-2 text-center row align-items-center px-3 mb-1">
                     <button type="submit" class="btn btn-sm btn-outline-secondary py-4">&nbsp;작성&nbsp;</button>
@@ -172,11 +202,14 @@
                   <div class="btn-group" th:if="${#authentication.name == comment.user.username}">
                     <!-- 작성자와 로그인 사용자가 같은 경우에만 수정과 삭제 버튼 노출 -->
                     <button class="btn btn-sm btn-outline-secondary" type="button"
-                      th:onclick="|location.href='@{/comment/form(id=${comment.id})}'|" th:text="수정">
+                      th:onclick="|location.href='@{/article/view(id=${article.id}, commentId=${comment.id}, commentMode=edit)}'|"
+                      th:text="수정">
+                      <!-- th:onclick="|location.href='@{/comment/edit(articleId=${article.id}, commentId=${comment.id}, userId=${user.id})}'|" -->
+                      <!-- th:onclick="|location.href='@{/comment/form(id=${comment.id})}'|" th:text="수정"> -->
                       modify
                     </button>
                     <button class="btn btn-sm btn-outline-secondary" type="button"
-                      th:onclick="|location.href='@{/comment/delete(commentId=*{comment.id}, userId=*{user.id})}'|"
+                      th:onclick="|location.href='@{/comment/delete(commentId=${comment.id}, userId=${user.id})}'|"
                       th:text="삭제">
                       delete
                     </button>

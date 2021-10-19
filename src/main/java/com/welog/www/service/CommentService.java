@@ -18,6 +18,10 @@ public class CommentService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	public Comment findById(Long id) {
+		return commentRepository.findById(id).orElse(null);
+	}
+	
 	public void save(Comment comment, Long articleId, Long userId) {
 		Article article = new Article();
 		article.setId(articleId);
@@ -35,6 +39,17 @@ public class CommentService {
 		if (user.getUsername().equals(username)) {
 			commentRepository.deleteById(commentId);
 		}
+	}
+	
+	public boolean isOwnerCurrentUser(Long commentId, String currentUser) {
+		Comment comment = commentRepository.findById(commentId).orElse(null);
+		User user = userRepository.findByUsername(currentUser);
+		
+		if (comment.getUser().getId() == user.getId()) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }
