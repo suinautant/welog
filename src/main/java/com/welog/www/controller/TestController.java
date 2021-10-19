@@ -31,7 +31,6 @@ public class TestController {
 		for (Comment comment : comments) {
 			System.out.println("$$$$$$$$$$$$$ comment : " + comment.getId());
 			System.out.println("$$$$$$$$$$$$$ comment : " + comment.getUser().getUsername());
-			System.out.println("$$$$$$$$$$$$$ comment : " + comment.getCreated_date());
 			System.out.println("$$$$$$$$$$$$$ comment : " + comment.getContent());
 		}
 

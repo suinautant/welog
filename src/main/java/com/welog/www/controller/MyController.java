@@ -46,7 +46,8 @@ public class MyController {
 		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
 		// NATIVE SQL QUERY - content like or subject like 했을 때 하나의 조건 입력 값이 null 이면 검색식 무효화
 		//		List<Article> articles = articleRepository.findByUser_idAndSearchForSubjectOrContent(userId, searchText, searchText);
-		List<Article> articles = articleRepository.findByUser_id(userId);
+//		List<Article> articles = articleRepository.findByUser_id(userId);
+		List<Article> articles = articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 
 		model.addAttribute("articles", articles);
 
@@ -78,7 +79,8 @@ public class MyController {
 
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
-		List<Article> articles = likeItRepository.findByLikeItUser(userId);
+//		List<Article> articles = likeItRepository.findByLikeItUser(userId);
+		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
 		model.addAttribute("articles", articles);
 
 		return "my/like";

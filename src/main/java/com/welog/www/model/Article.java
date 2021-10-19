@@ -48,10 +48,11 @@ public class Article {
 	private Long likehit;
 
 //	@Column(nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	@Column(insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime created_date;
+	@Column(name="created_date", insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private LocalDateTime createdDate;
 
-	private LocalDateTime updated_date;
+	@Column(name = "updated_date")
+	private LocalDateTime updatedDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")

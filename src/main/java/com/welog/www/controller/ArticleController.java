@@ -55,12 +55,11 @@ public class ArticleController {
 	public String main(Model model, Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// 페이징 기능 삭제 - 메인용
-		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+		List<Article> articles = articleRepository.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
 
 		// 좋아요 랭킹 상위 4개
 		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
-
-		//		System.out.println("$$$$$$$$$$$ likeArticles : " + likeArticles);
 
 		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
@@ -145,7 +144,7 @@ public class ArticleController {
 			}
 
 			// 현재 시간 updated_date에 설정
-			article.setUpdated_date(LocalDateTime.now());
+			article.setUpdatedDate(LocalDateTime.now());
 			model.addAttribute("article", article);
 		}
 		return "article/form";

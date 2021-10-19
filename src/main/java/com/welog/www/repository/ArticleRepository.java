@@ -14,8 +14,10 @@ import com.welog.www.model.Article;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 	
 	Page<Article> findBySubjectContainingOrContentContaining(String subject, String content, Pageable pageable);
-	List<Article> findBySubjectContainingOrContentContaining(String subject, String content);
-	List<Article> findByUser_id(Long id);
+//	List<Article> findBySubjectContainingOrContentContaining(String subject, String content);
+	List<Article> findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(String subject, String content);
+//	List<Article> findByUser_id(Long id);
+	List<Article> findByUser_idOrderByCreatedDateDesc(Long id);
 	
 	List<Article> findTop4ByOrderByLikehitDesc();
 	

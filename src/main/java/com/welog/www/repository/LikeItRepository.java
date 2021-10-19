@@ -51,8 +51,9 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			+ " FROM like_article_user l"
 			+ " LEFT JOIN article a"
 			+ " ON l.article_id =a.id"
-			+ " WHERE l.user_id = ?1",
+			+ " WHERE l.user_id = ?1"
+			+ " ORDER BY created_date DESC",
 			nativeQuery = true)
-	List<Article> findByLikeItUser(Long userId);
+	List<Article> findByLikeItUserOrderByCreatedDateDesc(Long userId);
 
 }

@@ -28,8 +28,8 @@ public class Comment {
 
 //	private String username;
 	
-	@Column(insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime created_date;
+	@Column(name="created_date", insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private LocalDateTime createdDate;
 	
 	// article 객체 N:1 외래키 조인
 	@ManyToOne
