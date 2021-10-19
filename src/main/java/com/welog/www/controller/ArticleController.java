@@ -47,7 +47,7 @@ public class ArticleController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -91,9 +91,8 @@ public class ArticleController {
 	}
 
 	@GetMapping("view")
-	public String view(Model model, @RequestParam(required = false) Long id, 
-			Authentication authentication) {
-		
+	public String view(Model model, @RequestParam(required = false) Long id, Authentication authentication) {
+
 		if (id != null) {
 			Article article = articleRepository.findById(id).orElse(null);
 			// id 값이 Long 타입이 아니거나
@@ -115,9 +114,12 @@ public class ArticleController {
 			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
 			model.addAttribute("likeIt", likeIt);
 			
-			String currentUsername = authentication.getName();
-			User user = userRepository.findByUsername(currentUsername);
-			model.addAttribute(user);
+			// 로그인시 유저 정보
+			if (authentication != null) {
+				String currentUsername = authentication.getName();
+				User   user            = userRepository.findByUsername(currentUsername);
+				model.addAttribute(user);
+			}
 
 			Comment comment = new Comment();
 			model.addAttribute(comment);
@@ -150,8 +152,7 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(@Valid Article article, @RequestParam(required = false) Long id, 
-			BindingResult bindingResult,
+	public String formPost(@Valid Article article, @RequestParam(required = false) Long id, BindingResult bindingResult,
 			Authentication authentication) {
 
 		// validator 검증 
