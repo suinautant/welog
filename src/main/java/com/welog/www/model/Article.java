@@ -65,7 +65,10 @@ public class Article {
 	@OneToMany(mappedBy = "article", orphanRemoval = true)
 	@OrderBy("created_date DESC")
 	private List<Comment> comments = new ArrayList<>();
-	
+
+	// ArticlePicture
+	@OneToMany(mappedBy = "article", orphanRemoval = true)
+	private List<ArticlePicture> articlePictures = new ArrayList<>();
 	
 	
 }

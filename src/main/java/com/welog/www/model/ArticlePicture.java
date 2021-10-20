@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +21,6 @@ public class ArticlePicture {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long article_id;
 	
 	private String original_filename;
 	
@@ -27,6 +30,10 @@ public class ArticlePicture {
 	
 	private Long filesize;
 	
-	
+	// article 객체 N:1 외래키 조인
+	@ManyToOne
+	@JoinColumn(name = "article_id")
+	@JsonIgnore
+	private Article article;
 	
 }
