@@ -11,4 +11,9 @@ public class HomeController {
 		return "redirect:article/";
 	}
 	
+	@GetMapping("/error")
+	public String error() {
+		return "error";
+	}
+	
 }

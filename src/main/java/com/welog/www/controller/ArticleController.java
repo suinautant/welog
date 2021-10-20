@@ -2,6 +2,7 @@ package com.welog.www.controller;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.welog.www.classObject.AttachImage;
 import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
+import com.welog.www.model.ArticlePicture;
 import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
@@ -108,23 +111,19 @@ public class ArticleController {
 			@RequestParam(required = false) String commentMode,
 			Authentication authentication) {
 
-		if (id != null)
-			return "error";
-
+		if (id == null)
+			return "redirect:/";
 		Article article = articleRepository.findById(id).orElse(null);
 
-		// id 값이 Long 타입이 아니거나
-		// 없는 게시물에 접근 시 목록으로 보내기
+		// 없는 게시물에 접근 시 메인으로 보내기
 		if (article == null) {
-			return "redirect:/article/list";
+			return "redirect:/";
 		}
+
+		// Article 객체 - 게시물
 		model.addAttribute("article", article);
 
-		// 댓글
-		List<Comment> comments = article.getComments();
-		model.addAttribute("comments", comments);
-
-		// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
+		// LikeIt 객체 - 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
 		LikeIt likeIt = new LikeIt();
 		if (authentication != null) {
 			likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
@@ -132,13 +131,18 @@ public class ArticleController {
 		likeIt.setCountLikeUser(likeItService.countLikeUser(article));
 		model.addAttribute("likeIt", likeIt);
 
-		// 로그인시 유저 정보
+		// User 객체 - 로그인 유저 정보
 		if (authentication != null) {
 			String currentUsername = authentication.getName();
 			User user = userRepository.findByUsername(currentUsername);
 			model.addAttribute("user", user);
 		}
 
+		// Comment 객체 -  댓글
+		List<Comment> comments = article.getComments();
+		model.addAttribute("comments", comments);
+
+		// 댓글 모드(작성, 수정)에 따른 객체
 		Comment comment = new Comment();
 		model.addAttribute("comment", comment);
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:include="fragments/common :: head('ERROR - WElog')"> </head>
+
+    <body>
+        <!-- header -->
+        <header id="commonHeaderNavSticky" th:include="fragments/common :: header"></header>
+
+        <main>
+            <!-- Top Section -->
+            <!-- <section class="py-5 text-center container" th:include="fragments/common :: myTopSection"></section> -->
+
+            <div class="album py-5 bg-light">
+                <div class="container text-center">
+                    <!-- 게시물  -->
+                    <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:include="fragments/article :: articleList"></div> -->
+                    <h1>ERROR</h1>
+                </div>
+            </div>
+        </main>
+
+        <!-- footer -->
+        <footer class="text-muted py-5" th:include="fragments/common :: footer"></footer>
+    </body>
+</html>
