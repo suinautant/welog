@@ -26,6 +26,7 @@ import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.repository.UserRepository;
+import com.welog.www.service.ArticlePictureService;
 import com.welog.www.service.ArticleService;
 import com.welog.www.service.CommentService;
 import com.welog.www.service.LikeItService;
@@ -41,6 +42,9 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+
+	@Autowired
+	private ArticlePictureService articlePictureService;
 
 	@Autowired
 	private ArticleValidator articleValidator;
@@ -62,7 +66,7 @@ public class ArticleController {
 			Model model,
 			Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
-		
+
 		List<Article> articles = articleRepository
 				.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
 
@@ -104,46 +108,47 @@ public class ArticleController {
 			@RequestParam(required = false) String commentMode,
 			Authentication authentication) {
 
-		if (id != null) {
-			Article article = articleRepository.findById(id).orElse(null);
+		if (id != null)
+			return "error";
 
-			// id 값이 Long 타입이 아니거나
-			// 없는 게시물에 접근 시 목록으로 보내기
-			if (article == null) {
-				return "redirect:/article/list";
-			}
-			model.addAttribute("article", article);
+		Article article = articleRepository.findById(id).orElse(null);
 
-			// 댓글
-			List<Comment> comments = article.getComments();
-			model.addAttribute("comments", comments);
+		// id 값이 Long 타입이 아니거나
+		// 없는 게시물에 접근 시 목록으로 보내기
+		if (article == null) {
+			return "redirect:/article/list";
+		}
+		model.addAttribute("article", article);
 
-			// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
-			LikeIt likeIt = new LikeIt();
-			if (authentication != null) {
-				likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
-			}
-			likeIt.setCountLikeUser(likeItService.countLikeUser(article));
-			model.addAttribute("likeIt", likeIt);
+		// 댓글
+		List<Comment> comments = article.getComments();
+		model.addAttribute("comments", comments);
 
-			// 로그인시 유저 정보
-			if (authentication != null) {
-				String currentUsername = authentication.getName();
-				User user = userRepository.findByUsername(currentUsername);
-				model.addAttribute("user", user);
-			}
+		// 좋아요 누른 사용자인지 확인  (true : 좋아요 누른 사용자)
+		LikeIt likeIt = new LikeIt();
+		if (authentication != null) {
+			likeIt.setLikeUser(likeItService.isLikeUser(article, authentication));
+		}
+		likeIt.setCountLikeUser(likeItService.countLikeUser(article));
+		model.addAttribute("likeIt", likeIt);
 
-			Comment comment = new Comment();
-			model.addAttribute("comment", comment);
+		// 로그인시 유저 정보
+		if (authentication != null) {
+			String currentUsername = authentication.getName();
+			User user = userRepository.findByUsername(currentUsername);
+			model.addAttribute("user", user);
+		}
 
-			if (commentMode == null) {
-				commentMode = "write";
-				model.addAttribute("commentMode", commentMode);
-			} else if (commentMode.equals("edit")) {
-				Comment editComment = commentService.findById(commentId);
-				model.addAttribute("editComment", editComment);
-				model.addAttribute("commentMode", commentMode);
-			}
+		Comment comment = new Comment();
+		model.addAttribute("comment", comment);
+
+		if (commentMode == null) {
+			commentMode = "write";
+			model.addAttribute("commentMode", commentMode);
+		} else if (commentMode.equals("edit")) {
+			Comment editComment = commentService.findById(commentId);
+			model.addAttribute("editComment", editComment);
+			model.addAttribute("commentMode", commentMode);
 		}
 
 		return "article/view";
@@ -200,8 +205,7 @@ public class ArticleController {
 
 		String username = authentication.getName();
 		articleService.save(username, article);
-
-		articleService.saveWithPicture(article, username, multipartFiles);
+		articlePictureService.save(article, multipartFiles);
 
 		return "redirect:/";
 	}
@@ -210,14 +214,13 @@ public class ArticleController {
 	public String delete(
 			@RequestParam(required = true) Long id,
 			Authentication authentication) {
-		
+
 		Article article = articleRepository.findById(id).orElse(null);
 		String articleUsername = article.getUser().getUsername();
 		String currentUsername = authentication.getName();
 
-		// 사용자 인증 : : 원글 사용자면 삭제
+		// 사용자 인증. 원글 사용자면 삭제
 		if (currentUsername.equals(articleUsername))
-//			articleRepository.deleteById(id);
 			articleService.deleteById(id);
 
 		return "redirect:/";

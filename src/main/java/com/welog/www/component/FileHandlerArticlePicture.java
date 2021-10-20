@@ -24,7 +24,8 @@ public class FileHandlerArticlePicture {
 	private String savePath = "src/main/resources/static/data/files/";
 
 	public List<ArticlePicture> parseFileInfo(
-			Long articleId,
+//			Long articleId,
+			Article article,
 			List<MultipartFile> multipartFiles)
 			throws Exception {
 
@@ -74,7 +75,7 @@ public class FileHandlerArticlePicture {
 				// 파일 이름을 나노초로 지정
 				String newFilename = Long.toString(System.nanoTime()) + originalFileExtension;
 				ArticlePicture articlePicture = new ArticlePicture();
-				Article article = articleService.findById(articleId);
+//				Article article = articleService.findById(articleId);
 
 				// 객체 생성
 				articlePicture.setFilename(newFilename);
