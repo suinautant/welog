@@ -1,5 +1,7 @@
 package com.welog.www.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.welog.www.model.Article;
 import com.welog.www.model.Comment;
 import com.welog.www.repository.CommentRepository;
 import com.welog.www.service.CommentService;
+import com.welog.www.service.UserService;
 import com.welog.www.validator.CommentValidator;
 
 @Controller
@@ -28,26 +32,35 @@ public class CommentController {
 	@Autowired
 	private CommentValidator commentValidator;
 
-	@PostMapping("/write")
-	public String write(@Valid Comment comment, @RequestParam(required = false) Long articleId,
-			@RequestParam(required = false) Long userId,
-			@RequestParam(required = true, defaultValue = "write") String commentMode, BindingResult bindingResult,
-			HttpServletRequest request) {
+	@Autowired
+	private UserService userService;
 
-		String referer = request.getHeader("Referer");
-		commentValidator.validate(comment, bindingResult);
-		if (bindingResult.hasErrors())
-			return "redirect:" + referer;
+	@GetMapping("/delete")
+	public String delete(@RequestParam(required = false) Long commentId, @RequestParam(required = false) Long userId,
+			Authentication authentication, HttpServletRequest request) {
 
-		commentService.save(comment, articleId, userId);
+		String referer         = request.getHeader("Referer");
+		String currentUsername = authentication.getName();
+
+		commentService.delete(commentId, userId, currentUsername);
 
 		return "redirect:" + referer;
 	}
 
+	@GetMapping("deleteAllCommentByUser")
+	public String deleteAllCommentByUser(Model model, Authentication authentication, HttpServletRequest request) {
+
+		String referer = request.getHeader("Referer");
+
+		long userId = userService.findUserIdByCurrentUsername(authentication);
+		
+//		return "redirect:" + referer;
+		return "";
+	}
+
 	@PostMapping("/edit")
 	public String edit(Model model, @Valid Comment editComment, @RequestParam(required = false) Long articleId,
-			@RequestParam(required = false) Long userId,
-			BindingResult bindingResult, HttpServletRequest request) {
+			@RequestParam(required = false) Long userId, BindingResult bindingResult, HttpServletRequest request) {
 
 		String referer = request.getHeader("Referer");
 		commentValidator.validate(editComment, bindingResult);
@@ -61,14 +74,18 @@ public class CommentController {
 		return "redirect:/article/view?id=" + articleId;
 	}
 
-	@GetMapping("/delete")
-	public String delete(@RequestParam(required = false) Long commentId, @RequestParam(required = false) Long userId,
-			Authentication authentication, HttpServletRequest request) {
+	@PostMapping("/write")
+	public String write(@Valid Comment comment, @RequestParam(required = false) Long articleId,
+			@RequestParam(required = false) Long userId,
+			@RequestParam(required = true, defaultValue = "write") String commentMode, BindingResult bindingResult,
+			HttpServletRequest request) {
 
-		String referer         = request.getHeader("Referer");
-		String currentUsername = authentication.getName();
+		String referer = request.getHeader("Referer");
+		commentValidator.validate(comment, bindingResult);
+		if (bindingResult.hasErrors())
+			return "redirect:" + referer;
 
-		commentService.delete(commentId, userId, currentUsername);
+		commentService.save(comment, articleId, userId);
 
 		return "redirect:" + referer;
 	}

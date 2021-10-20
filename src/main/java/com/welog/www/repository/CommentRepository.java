@@ -6,4 +6,5 @@ import com.welog.www.model.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
+
 }

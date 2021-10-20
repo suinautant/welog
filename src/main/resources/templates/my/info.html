@@ -84,9 +84,11 @@
           <div class="my-3">
             댓글 : <span th:text="${user.comments.size}">00</span>개
             &nbsp;&nbsp;(<a href="#" th:href="@{/my/comment}">모두보기</a>)<br />
-            <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/article/deleteAllCommentByUser}">
-              모두 삭제
-            </a>
+            <!-- 
+              <a class="my-2 my-sm-0 mx-2 bg-danger text-white" th:href="@{/comment/deleteAllCommentByUser}">
+                모두 삭제
+              </a>
+            -->
           </div>
 
           <div class="my-3">

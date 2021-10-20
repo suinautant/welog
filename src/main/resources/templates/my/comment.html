@@ -63,9 +63,51 @@
 
 
     <div class="album py-5 bg-light">
-      <div class="container">
-        <!-- 게시물 grid row-cols-md-nums -->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:include="fragments/article :: articleList"></div>
+      <!-- 게시물 grid row-cols-md-nums -->
+      <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:include="fragments/article :: articleList"></div> -->
+      <!-- 댓글 목록 -->
+      <div class="container" th:each="comment : ${user.comments}">
+        <!-- 댓글 작성 된 게시물  -->
+        <div class="my-3 p-3 bg-dark rounded shadow-sm">
+          <div class="d-flex justify-content-between">
+            <div class="col-md-2 mb-1 text-center text-white">
+            </div>
+            <div class="col-md-8 text-white-50">
+              <a href="#" th:href="@{/article/view(id=${comment.article.id})}" style="color:#ffffff;font-size:15px;">
+                <pre th:text="${comment.article.content}"> 내용 </pre>
+              </a>
+            </div>
+            <div class="col-md-2 mb-1 text-center text-white">
+              <span th:text="${comment.article.user.username}"> 사용자 </span><br />
+              <span class="text-muted" th:text=" ${comment.article.createdDate}"> 날짜 </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 댓글 요소  -->
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+          <div class="d-flex justify-content-between">
+            <div class="col-md-2 mb-1 text-center">
+              <span>
+                <h5><button type="button" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z">
+                      </path>
+                    </svg>
+                  </button></h5>
+              </span>
+            </div>
+            <div class="col-md-8">
+              <pre th:text="${comment.content}"> 내용 </pre>
+            </div>
+            <div class="col-md-2 mb-1 text-center text-white">
+              <span th:text="${comment.user.username}"> 사용자 </span><br />
+              <span class="text-muted" th:text=" ${comment.createdDate}"> 날짜 </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

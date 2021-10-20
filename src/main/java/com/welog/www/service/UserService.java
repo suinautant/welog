@@ -2,6 +2,7 @@ package com.welog.www.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,15 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	public User findById(Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
+	
+	public Long findUserIdByCurrentUsername(Authentication authentication) {
+		String username = authentication.getName();
+		return getUserIdFindByUsername(username);
+	}
+
 	public User save(User user) {
 		
 		// 패스워드 암호화
@@ -41,9 +51,7 @@ public class UserService {
 		return userRepository.findByUsername(username).getId();
 	}
 	
-//	public User getUserFindByCurrentUsername(String username) {
-//		return userRepository.findByUsername(username);
-//	}
+
 	
 
 }
