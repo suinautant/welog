@@ -66,7 +66,7 @@ public class Article {
 	@OrderBy("created_date DESC")
 	private List<Comment> comments = new ArrayList<>();
 
-	// ArticlePicture
+	// ArticlePicture 1:N
 	@OneToMany(mappedBy = "article", orphanRemoval = true)
 	private List<ArticlePicture> articlePictures = new ArrayList<>();
 	

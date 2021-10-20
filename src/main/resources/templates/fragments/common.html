@@ -74,10 +74,12 @@
                 <a class="nav-link" href="#" th:classappend="${menu}=='my'? 'active'" th:href="@{/my/}">MY</a>
               </li>
             -->
-            <li class="nav-item">
-              <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
+            <!--
+              <li class="nav-item">
+                <a class="nav-link" href="#" th:classappend="${menu}=='article'? 'active'"
                 th:href="@{/article/list}">BOARD</a>
-            </li>
+              </li>
+            -->
             <!-- search (subject, content)  -->
           </ul>
           <form th:action="@{/article/}">
