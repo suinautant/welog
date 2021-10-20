@@ -21,7 +21,6 @@ public class ArticlePicture {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
 	private String original_filename;
 	
 	private String stored_filename;

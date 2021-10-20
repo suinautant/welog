@@ -177,7 +177,7 @@ public class ArticleController {
 	public String formPost(
 			@Valid Article article,
 			@RequestParam(required = false) Long id,
-			@RequestParam(required = false) MultipartFile multipartFile,
+			@RequestParam(required = false, name = "files") List<MultipartFile> multipartFiles,
 			BindingResult bindingResult,
 			Authentication authentication) {
 
