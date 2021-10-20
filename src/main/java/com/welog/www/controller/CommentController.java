@@ -1,6 +1,5 @@
 package com.welog.www.controller;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -15,11 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.welog.www.model.Article;
 import com.welog.www.model.Comment;
-import com.welog.www.repository.CommentRepository;
 import com.welog.www.service.CommentService;
-import com.welog.www.service.UserService;
 import com.welog.www.validator.CommentValidator;
 
 @Controller
@@ -32,8 +28,6 @@ public class CommentController {
 	@Autowired
 	private CommentValidator commentValidator;
 
-	@Autowired
-	private UserService userService;
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam(required = false) Long commentId, @RequestParam(required = false) Long userId,
@@ -50,11 +44,6 @@ public class CommentController {
 	@GetMapping("deleteAllCommentByUser")
 	public String deleteAllCommentByUser(Model model, Authentication authentication, HttpServletRequest request) {
 
-		String referer = request.getHeader("Referer");
-
-		long userId = userService.findUserIdByCurrentUsername(authentication);
-		
-//		return "redirect:" + referer;
 		return "";
 	}
 

@@ -52,14 +52,8 @@ public class MyController {
 	public String comment(Model model, Authentication authentication) {
 
 		Long userId = userService.findUserIdByCurrentUsername(authentication);
-		User user   = userService.findById(userId);
-		model.addAttribute("user", user);
 
 		List<Comment> comments = commentService.findByUserIdOrderByCreatedDateDesc(userId);
-		System.out.println("$$$$$$$$$$$ comments : " + comments);
-		for (Comment comment : comments) {
-			System.out.println("$$$$$$$$$$$ comment.craeted date : " + comment.getCreatedDate());
-		}
 
 		model.addAttribute("comments",comments);
 
