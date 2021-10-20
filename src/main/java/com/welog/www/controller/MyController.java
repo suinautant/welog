@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
+import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.repository.LikeItRepository;
@@ -46,7 +47,7 @@ public class MyController {
 		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
 		// NATIVE SQL QUERY - content like or subject like 했을 때 하나의 조건 입력 값이 null 이면 검색식 무효화
 		//		List<Article> articles = articleRepository.findByUser_idAndSearchForSubjectOrContent(userId, searchText, searchText);
-//		List<Article> articles = articleRepository.findByUser_id(userId);
+		//		List<Article> articles = articleRepository.findByUser_id(userId);
 		List<Article> articles = articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 
 		model.addAttribute("articles", articles);
@@ -69,6 +70,18 @@ public class MyController {
 		int countLikeItByUser = likeItRepository.countLikeItByUser(userId);
 		model.addAttribute("countLikeItByUser", countLikeItByUser);
 
+		// FOR-TEST
+		System.out.println("$$$$$$$$$ user : " + user);
+		System.out.println("$$$$$$$$$ user.id : " + user.getId());
+		System.out.println("$$$$$$$$$ user.comment : " + user.getComments());
+		System.out.println("$$$$$$$$$ user.comment.size : " + user.getComments().size());
+		for (Comment comment : user.getComments()) {
+			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getArticle());
+			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getArticle().getId());
+			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getContent());
+		}
+		// FOR-TEST
+
 		model.addAttribute("user", user);
 
 		return "my/info";
@@ -79,12 +92,23 @@ public class MyController {
 
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
-//		List<Article> articles = likeItRepository.findByLikeItUser(userId);
 		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
 		model.addAttribute("articles", articles);
 
 		return "my/like";
 	}
+	
+	@GetMapping("comment")
+	public String comment(Model model, Authentication authentication) {
+
+		String currentUsername = authentication.getName();
+		long   userId          = userService.getUserIdFindByUsername(currentUsername);
+		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
+		model.addAttribute("articles", articles);
+		
+		return "my/comment";
+	}
+	
 
 	// EOD
 }
