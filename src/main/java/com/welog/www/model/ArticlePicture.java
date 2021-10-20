@@ -21,13 +21,13 @@ public class ArticlePicture {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String original_filename;
+	private String filename;
 	
-	private String stored_filename;
+	private String path;
 	
-	private String stored_filepath;
-	
-	private Long filesize;
+	private String original;
+
+	private Long size;
 	
 	// article 객체 N:1 외래키 조인
 	@ManyToOne

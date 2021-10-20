@@ -1,6 +1,5 @@
 package com.welog.www.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -28,12 +27,14 @@ public class CommentController {
 	@Autowired
 	private CommentValidator commentValidator;
 
-
 	@GetMapping("/delete")
-	public String delete(@RequestParam(required = false) Long commentId, @RequestParam(required = false) Long userId,
-			Authentication authentication, HttpServletRequest request) {
+	public String delete(
+			@RequestParam(required = false) Long commentId,
+			@RequestParam(required = false) Long userId,
+			Authentication authentication,
+			HttpServletRequest request) {
 
-		String referer         = request.getHeader("Referer");
+		String referer = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
 
 		commentService.delete(commentId, userId, currentUsername);
@@ -42,14 +43,22 @@ public class CommentController {
 	}
 
 	@GetMapping("deleteAllCommentByUser")
-	public String deleteAllCommentByUser(Model model, Authentication authentication, HttpServletRequest request) {
+	public String deleteAllCommentByUser(
+			Model model,
+			Authentication authentication,
+			HttpServletRequest request) {
 
 		return "";
 	}
 
 	@PostMapping("/edit")
-	public String edit(Model model, @Valid Comment editComment, @RequestParam(required = false) Long articleId,
-			@RequestParam(required = false) Long userId, BindingResult bindingResult, HttpServletRequest request) {
+	public String edit(
+			Model model,
+			@Valid Comment editComment,
+			@RequestParam(required = false) Long articleId,
+			@RequestParam(required = false) Long userId,
+			BindingResult bindingResult,
+			HttpServletRequest request) {
 
 		String referer = request.getHeader("Referer");
 		commentValidator.validate(editComment, bindingResult);
@@ -64,9 +73,12 @@ public class CommentController {
 	}
 
 	@PostMapping("/write")
-	public String write(@Valid Comment comment, @RequestParam(required = false) Long articleId,
+	public String write(
+			@Valid Comment comment,
+			@RequestParam(required = false) Long articleId,
 			@RequestParam(required = false) Long userId,
-			@RequestParam(required = true, defaultValue = "write") String commentMode, BindingResult bindingResult,
+			@RequestParam(required = true, defaultValue = "write") String commentMode,
+			BindingResult bindingResult,
 			HttpServletRequest request) {
 
 		String referer = request.getHeader("Referer");

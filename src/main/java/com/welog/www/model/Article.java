@@ -38,7 +38,7 @@ public class Article {
 	@NotNull
 	private String content;
 
-	private String image_src;
+//	private String image_src;
 	
 	private Long likehit;
 

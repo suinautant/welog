@@ -22,14 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-		// FOR-TEST : csrf
-		// .csrf().disable()
-		// 설정 끄지 않으면 DELETE 시 403 오류 발생
-//		.csrf().disable()
 		.authorizeRequests()
 			.antMatchers("/", "/css/**", 
 						"/account/register", 
-						"/article/", "/article/main", "/article/list", "/article/view"
+						"/article/", "/article/main", "/article/list", "/article/view",
+						"/data/files/**"
 						).permitAll()
 			.anyRequest().authenticated()
 			.and()

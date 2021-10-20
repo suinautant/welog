@@ -62,8 +62,7 @@ public class ArticleController {
 			Model model,
 			Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
-		// 페이징 기능 삭제 - 메인용
-		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
+		
 		List<Article> articles = articleRepository
 				.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
 
@@ -72,6 +71,7 @@ public class ArticleController {
 
 		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
+
 		return "article/main";
 	}
 
@@ -80,13 +80,14 @@ public class ArticleController {
 			Model model,
 			@PageableDefault(size = 10) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
+
 		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText,
 				pageable);
 
 		// 페이지 칼럼 개수 : 4개 이상 이동시 컬럼 자동 추가
 		int columnPage = 4;
-		int startPage  = Math.max(1, articles.getPageable().getPageNumber() - columnPage);
-		int endPage    = Math.min(articles.getTotalPages(), articles.getPageable().getPageNumber() + columnPage);
+		int startPage = Math.max(1, articles.getPageable().getPageNumber() - columnPage);
+		int endPage = Math.min(articles.getTotalPages(), articles.getPageable().getPageNumber() + columnPage);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("startPage", startPage);
@@ -128,7 +129,7 @@ public class ArticleController {
 			// 로그인시 유저 정보
 			if (authentication != null) {
 				String currentUsername = authentication.getName();
-				User   user            = userRepository.findByUsername(currentUsername);
+				User user = userRepository.findByUsername(currentUsername);
 				model.addAttribute("user", user);
 			}
 
@@ -179,9 +180,10 @@ public class ArticleController {
 			@RequestParam(required = false) Long id,
 			@RequestParam(required = false, name = "files") List<MultipartFile> multipartFiles,
 			BindingResult bindingResult,
-			Authentication authentication) {
+			Authentication authentication)
+			throws Exception {
 
-		// validator 검증 
+		// validator  
 		articleValidator.validate(article, bindingResult);
 		if (bindingResult.hasErrors())
 			return "/article/form";
@@ -199,12 +201,7 @@ public class ArticleController {
 		String username = authentication.getName();
 		articleService.save(username, article);
 
-		// FOR-TEST : 파일 업로드
-		String absolutePath = new File("").getAbsolutePath() + "\\";
-		// 실행 예 : D:\springboot\welog\
-		System.out.println("$$$$$$$$$$ 현재 경로 : " + absolutePath);
-
-		// FOR-TEST : 파일 업로드
+		articleService.saveWithPicture(article, username, multipartFiles);
 
 		return "redirect:/";
 	}
@@ -213,13 +210,15 @@ public class ArticleController {
 	public String delete(
 			@RequestParam(required = true) Long id,
 			Authentication authentication) {
-		Article article         = articleRepository.findById(id).orElse(null);
-		String  articleUsername = article.getUser().getUsername();
-		String  currentUsername = authentication.getName();
+		
+		Article article = articleRepository.findById(id).orElse(null);
+		String articleUsername = article.getUser().getUsername();
+		String currentUsername = authentication.getName();
 
 		// 사용자 인증 : : 원글 사용자면 삭제
 		if (currentUsername.equals(articleUsername))
-			articleRepository.deleteById(id);
+//			articleRepository.deleteById(id);
+			articleService.deleteById(id);
 
 		return "redirect:/";
 	}
@@ -229,7 +228,7 @@ public class ArticleController {
 			Authentication authentication) {
 
 		String currentUsername = authentication.getName();
-		long   userId          = userService.getUserIdFindByUsername(currentUsername);
+		long userId = userService.getUserIdFindByUsername(currentUsername);
 		articleRepository.deleteByUser_id(userId);
 
 		return "redirect:/my/info";
