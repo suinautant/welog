@@ -16,18 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-//@Data
 @Getter
 @Setter
 public class Article {
@@ -37,7 +33,6 @@ public class Article {
 	private Long id;
 
 	@NotNull
-//	@Size(min = 2, max = 100, message = "제목은 2자 이상 100자 이하입니다.")
 	private String subject;
 
 	@NotNull
@@ -47,7 +42,6 @@ public class Article {
 	
 	private Long likehit;
 
-//	@Column(nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Column(name="created_date", insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdDate;
 
@@ -71,4 +65,7 @@ public class Article {
 	@OneToMany(mappedBy = "article", orphanRemoval = true)
 	@OrderBy("created_date DESC")
 	private List<Comment> comments = new ArrayList<>();
+	
+	
+	
 }

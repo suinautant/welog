@@ -1,5 +1,6 @@
 package com.welog.www.controller;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
@@ -56,7 +58,9 @@ public class ArticleController {
 	private UserRepository userRepository;
 
 	@GetMapping("/")
-	public String main(Model model, Pageable pageable,
+	public String main(
+			Model model,
+			Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 		// 페이징 기능 삭제 - 메인용
 		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
@@ -72,15 +76,12 @@ public class ArticleController {
 	}
 
 	@GetMapping("list")
-	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
+	public String list(
+			Model model,
+			@PageableDefault(size = 10) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
-		// id로 역순 정렬 모두 조회
-		//		Page<Article> articles = articleRepository.findAll(pageable);
 		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText,
 				pageable);
-		// 아래 2줄 적용시 해당 페이지(10개 사이즈) 0번의 레코드만 가져옴
-		//		PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
-		//		Page<Article> articles = articleRepository.findAll(pageRequest);
 
 		// 페이지 칼럼 개수 : 4개 이상 이동시 컬럼 자동 추가
 		int columnPage = 4;
@@ -95,12 +96,16 @@ public class ArticleController {
 	}
 
 	@GetMapping("view")
-	public String view(Model model, @RequestParam(required = false) Long id,
-			@RequestParam(required = false) Long commentId, @RequestParam(required = false) String commentMode,
+	public String view(
+			Model model,
+			@RequestParam(required = false) Long id,
+			@RequestParam(required = false) Long commentId,
+			@RequestParam(required = false) String commentMode,
 			Authentication authentication) {
 
 		if (id != null) {
 			Article article = articleRepository.findById(id).orElse(null);
+
 			// id 값이 Long 타입이 아니거나
 			// 없는 게시물에 접근 시 목록으로 보내기
 			if (article == null) {
@@ -144,13 +149,15 @@ public class ArticleController {
 	}
 
 	@GetMapping("form")
-	public String form(Model model, @RequestParam(required = false) Long id) {
+	public String form(
+			Model model,
+			@RequestParam(required = false) Long id) {
 
 		if (id == null) {
 			Article article = new Article();
 			article.setLikehit(0l);
 			model.addAttribute("article", article);
-			//			model.addAttribute("article", new Article());
+
 		} else {
 			Article article = articleRepository.findById(id).orElse(null);
 
@@ -167,11 +174,14 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(@Valid Article article, @RequestParam(required = false) Long id, BindingResult bindingResult,
+	public String formPost(
+			@Valid Article article,
+			@RequestParam(required = false) Long id,
+			@RequestParam(required = false) MultipartFile multipartFile,
+			BindingResult bindingResult,
 			Authentication authentication) {
 
 		// validator 검증 
-		// ArticleValidator 확인 후 오류 있을 시 /article/form 리턴
 		articleValidator.validate(article, bindingResult);
 		if (bindingResult.hasErrors())
 			return "/article/form";
@@ -188,11 +198,21 @@ public class ArticleController {
 
 		String username = authentication.getName();
 		articleService.save(username, article);
+
+		// FOR-TEST : 파일 업로드
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		// 실행 예 : D:\springboot\welog\
+		System.out.println("$$$$$$$$$$ 현재 경로 : " + absolutePath);
+
+		// FOR-TEST : 파일 업로드
+
 		return "redirect:/";
 	}
 
 	@GetMapping("delete")
-	public String delete(@RequestParam(required = true) Long id, Authentication authentication) {
+	public String delete(
+			@RequestParam(required = true) Long id,
+			Authentication authentication) {
 		Article article         = articleRepository.findById(id).orElse(null);
 		String  articleUsername = article.getUser().getUsername();
 		String  currentUsername = authentication.getName();
@@ -205,7 +225,8 @@ public class ArticleController {
 	}
 
 	@GetMapping("/deleteAllArticleByUser")
-	public String deleteAllArticleByUser(Authentication authentication) {
+	public String deleteAllArticleByUser(
+			Authentication authentication) {
 
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
