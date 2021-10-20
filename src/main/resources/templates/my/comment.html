@@ -66,7 +66,7 @@
       <!-- 게시물 grid row-cols-md-nums -->
       <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" th:include="fragments/article :: articleList"></div> -->
       <!-- 댓글 목록 -->
-      <div class="container" th:each="comment : ${user.comments}">
+      <div class="container" th:each="comment : ${comments}">
         <!-- 댓글 작성 된 게시물  -->
         <div class="my-3 p-3 bg-dark rounded shadow-sm">
           <div class="d-flex justify-content-between">
@@ -102,7 +102,7 @@
             <div class="col-md-8">
               <pre th:text="${comment.content}"> 내용 </pre>
             </div>
-            <div class="col-md-2 mb-1 text-center text-white">
+            <div class="col-md-2 mb-1 text-center">
               <span th:text="${comment.user.username}"> 사용자 </span><br />
               <span class="text-muted" th:text=" ${comment.createdDate}"> 날짜 </span>
             </div>

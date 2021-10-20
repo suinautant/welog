@@ -14,17 +14,22 @@ import com.welog.www.repository.UserRepository;
 
 @Service
 public class CommentService {
-	
+
 	@Autowired
 	private CommentRepository commentRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public Comment findById(Long id) {
 		return commentRepository.findById(id).orElse(null);
 	}
-	
+
+	public List<Comment> findByUserIdOrderByCreatedDateDesc(Long userId) {
+		User user = userRepository.findById(userId).orElse(null);
+		return commentRepository.findByUserOrderByCreatedDateDesc(user);
+	}
+
 	public void save(Comment comment, Long articleId, Long userId) {
 		Article article = new Article();
 		article.setId(articleId);
@@ -36,22 +41,22 @@ public class CommentService {
 
 		commentRepository.save(comment);
 	}
-	
+
 	public void delete(Long commentId, Long userId, String username) {
 		User user = userRepository.findById(userId).orElse(null);
 		if (user.getUsername().equals(username)) {
 			commentRepository.deleteById(commentId);
 		}
 	}
-	
+
 	public boolean isOwnerCurrentUser(Long commentId, String currentUser) {
 		Comment comment = commentRepository.findById(commentId).orElse(null);
-		User user = userRepository.findByUsername(currentUser);
-		
+		User    user    = userRepository.findByUsername(currentUser);
+
 		if (comment.getUser().getId() == user.getId()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

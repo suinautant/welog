@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
+import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
 import com.welog.www.repository.LikeItRepository;
+import com.welog.www.service.CommentService;
 import com.welog.www.service.UserService;
 
 @Controller
@@ -26,6 +28,9 @@ public class MyController {
 
 	@Autowired
 	private LikeItRepository likeItRepository;
+
+	@Autowired
+	private CommentService commentService;
 
 	@Autowired
 	private UserService userService;
@@ -45,17 +50,19 @@ public class MyController {
 
 	@GetMapping("comment")
 	public String comment(Model model, Authentication authentication) {
-		
-		long userId = userService.findUserIdByCurrentUsername(authentication);
-		User user = userService.findById(userId);
+
+		Long userId = userService.findUserIdByCurrentUsername(authentication);
+		User user   = userService.findById(userId);
 		model.addAttribute("user", user);
-		
-		// FOR-TEST
-//		System.out.println("$$$$$$$$$$ userid : " + user.getId());
-//		System.out.println("$$$$$$$$$$ user.comment : " + user.getComments());
-//		System.out.println("$$$$$$$$$$ user.comment.size : " + user.getComments().size());
-		// FOR-TEST
-		
+
+		List<Comment> comments = commentService.findByUserIdOrderByCreatedDateDesc(userId);
+		System.out.println("$$$$$$$$$$$ comments : " + comments);
+		for (Comment comment : comments) {
+			System.out.println("$$$$$$$$$$$ comment.craeted date : " + comment.getCreatedDate());
+		}
+
+		model.addAttribute("comments",comments);
+
 		return "my/comment";
 	}
 
@@ -63,7 +70,7 @@ public class MyController {
 	public String info(Model model, Authentication authentication) {
 
 		long userId = userService.findUserIdByCurrentUsername(authentication);
-		User user = userService.findById(userId);
+		User user   = userService.findById(userId);
 
 		// 작성 글 총합
 		Long countArticleByUser = articleRepository.countByUser_id(userId);
@@ -81,13 +88,12 @@ public class MyController {
 	@GetMapping("like")
 	public String like(Model model, Authentication authentication) {
 
-		long userId = userService.findUserIdByCurrentUsername(authentication);
+		long          userId   = userService.findUserIdByCurrentUsername(authentication);
 		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
 		model.addAttribute("articles", articles);
 
 		return "my/like";
 	}
-	
 
 	// EOD
 }

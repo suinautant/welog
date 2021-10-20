@@ -3,7 +3,11 @@
 좋아요 랭킹 출력부에 comments 갯수 출력 view 수정
 
 - 댓글
+ , 댓글 페이지의 댓글 날짜별 역순 정렬
+ -> user 객체 사용 중이므로 comment.createdDate 정렬 방법?
+ -> comment List 정렬 재가공 필요
  , 마이 정보 페이지에서 댓글 모두 삭제 기능
+
 
 - 버그 
 

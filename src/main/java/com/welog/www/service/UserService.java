@@ -2,6 +2,7 @@ package com.welog.www.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UserService {
 	public User findById(Long id) {
 		return userRepository.findById(id).orElse(null);
 	}
-	
+
 	public Long findUserIdByCurrentUsername(Authentication authentication) {
 		String username = authentication.getName();
 		return getUserIdFindByUsername(username);
