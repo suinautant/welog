@@ -43,11 +43,6 @@ public class MyController {
 		String currentUsername = authentication.getName();
 		long   userId          = userService.getUserIdFindByUsername(currentUsername);
 
-		// 페이징 기능 삭제 - 메인용
-		//		List<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText);
-		// NATIVE SQL QUERY - content like or subject like 했을 때 하나의 조건 입력 값이 null 이면 검색식 무효화
-		//		List<Article> articles = articleRepository.findByUser_idAndSearchForSubjectOrContent(userId, searchText, searchText);
-		//		List<Article> articles = articleRepository.findByUser_id(userId);
 		List<Article> articles = articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 
 		model.addAttribute("articles", articles);
@@ -69,18 +64,6 @@ public class MyController {
 		// 좋아요 총합
 		int countLikeItByUser = likeItRepository.countLikeItByUser(userId);
 		model.addAttribute("countLikeItByUser", countLikeItByUser);
-
-		// FOR-TEST
-		System.out.println("$$$$$$$$$ user : " + user);
-		System.out.println("$$$$$$$$$ user.id : " + user.getId());
-		System.out.println("$$$$$$$$$ user.comment : " + user.getComments());
-		System.out.println("$$$$$$$$$ user.comment.size : " + user.getComments().size());
-		for (Comment comment : user.getComments()) {
-			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getArticle());
-			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getArticle().getId());
-			System.out.println("$$$$$$$$$ user.comment 댓글 : " + comment.getContent());
-		}
-		// FOR-TEST
 
 		model.addAttribute("user", user);
 
@@ -107,6 +90,12 @@ public class MyController {
 		model.addAttribute("articles", articles);
 		
 		return "my/comment";
+	}
+	
+	@GetMapping("deleteAllCommentByUser")
+	public String deleteAllCommentByUser(Model model, Authentication authentication) {
+		
+		return "my/deleteAllCommentByUser";
 	}
 	
 
