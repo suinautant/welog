@@ -45,9 +45,9 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 //	LEFT JOIN article a
 //	ON l.article_id =a.id
 //	WHERE l.user_id = 10;
+//			+ " a.id, a.user_id, a.subject, a.content, a.image_src, a.likehit,"
 	@Query(value = "SELECT"
-			+ " a.id, a.user_id, a.subject, a.content, a.image_src, a.likehit,"
-			+ " a.created_date, a.updated_date"
+			+ " a.id, a.user_id, a.subject, a.content, a.likehit, a.created_date, a.updated_date"
 			+ " FROM like_article_user l"
 			+ " LEFT JOIN article a"
 			+ " ON l.article_id =a.id"

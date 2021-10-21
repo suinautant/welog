@@ -76,6 +76,8 @@ public class ArticleController {
 		// 좋아요 랭킹 상위 4개
 		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
 
+		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		model.addAttribute("defaultMainImg", defaultMainImg);
 		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
 
@@ -154,7 +156,7 @@ public class ArticleController {
 			model.addAttribute("editComment", editComment);
 			model.addAttribute("commentMode", commentMode);
 		}
-
+		
 		return "article/view";
 	}
 
