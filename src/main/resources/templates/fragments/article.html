@@ -60,7 +60,7 @@
             <!-- 이미지에 마우스 올라가 있는 동안 표시되는 문구 title태그 -->
             <image x="0" y="0" width="100%" height="100%"
               th:href="${#strings.replace(ap.path,'src/main/resources/static','') + '/' + ap.filename}">
-              <title>Placeholder</title>
+              <title th:text="${article.subject}">Placeholder</title>
               <rect width="100%" height="100%" fill="#55595c" />
               <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
           </svg>
@@ -80,13 +80,16 @@
 
         <!-- 좋아요 세부 게시물 -->
         <div class="card-body card">
-          <div class="card-title" style="height: 20px; overflow: hidden;">
+          <!-- <div class="card-title" style="height: 10px; overflow: hidden;"> -->
+          <div class="card-title">
             <a class="fw-bold" href="#" th:text="${article.subject}"
               th:href="@{/article/view(id=${article.id})}">subject</a>
             <hr />
           </div>
           <div class="mb-3" style="height: 100px; overflow: hidden;">
-            <span class=" card-text" th:text="${article.content}">This is test article. </span>
+            <a href="#" th:href="@{/article/view(id=${article.id})}">
+              <span class=" card-text" th:text="${article.content}">This is test article. </span>
+            </a>
           </div>
           <div class="d-flex justify-content-between">
             <small class="text-muted" th:text="${article.createdDate}">9 mins</small>
@@ -126,7 +129,7 @@
             <!-- 이미지에 마우스 올라가 있는 동안 표시되는 문구 title태그 -->
             <image x="0" y="0" width="100%" height="100%"
               th:href="${#strings.replace(ap.path,'src/main/resources/static','') + '/' + ap.filename}">
-              <title>Placeholder</title>
+              <title th:text="${article.subject}">Placeholder</title>
               <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
                 dy=".3em">Thumbnail</text>
           </svg>
@@ -151,7 +154,9 @@
               th:href="@{/article/view(id=${article.id})}">subject</a>
             <hr />
             <div class="mb-3" style="height: 100px; overflow: hidden;">
-              <span class=" card-text" th:text="${article.content}">This is test article. </span>
+              <a href="#" th:href="@{/article/view(id=${article.id})}">
+                <span class=" card-text" th:text="${article.content}">This is test article. </span>
+              </a>
             </div>
 
             <div class="d-flex justify-content-between">

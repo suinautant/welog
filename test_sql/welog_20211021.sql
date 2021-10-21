@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        8.0.23 - MySQL Community Server - GPL
+-- 서버 버전:                        8.0.25 - MySQL Community Server - GPL
 -- 서버 OS:                        Win64
 -- HeidiSQL 버전:                  11.3.0.6295
 -- --------------------------------------------------------
@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS `article` (
   PRIMARY KEY (`id`),
   KEY `FK_article_user` (`user_id`),
   CONSTRAINT `FK_article_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.article:~8 rows (대략적) 내보내기
+-- 테이블 데이터 welog.article:~45 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
 INSERT INTO `article` (`id`, `user_id`, `subject`, `content`, `likehit`, `created_date`, `updated_date`) VALUES
-	(79, 10, '길이가 어떻게 될까요? 123aaabb - role 수정', 'aaaabbb', 6, '2021-10-08 15:30:00', '2021-10-11 11:32:00'),
+	(79, 10, '블루베리를 나무위키에서 찾으면 나오는 내용은 다음과 같다', '북아메리카를 비롯한 북반구 전역에 분포하는 식물 및 열매. 이름과 달리 딸기, 라즈베리, 블랙베리 등의 베리류와는 전혀 관계가 없는 진달래과 식물[1]이다. 꽃말은 현명과 친절이다.\r\n\r\n넓게는 산앵도나무속(Vaccinium spp.)에 속한 여러 종들 중 검푸른 열매를 맺는 대부분의 식물들을 뭉뚱그려 블루베리라고 부르며, 동아시아가 원산지인 들쭉나무와 정금나무 및 지포나무, 유럽의 빌베리(bilberry)도 블루베리의 일종으로 간주된다. 물론 산앵도나무나 크랜베리(넌출월귤), 월귤(링곤베리)처럼 열매가 빨간 종들은 당연히 제외된다.\r\n\r\n좁은 의미의 블루베리는 북아메리카가 원산지인 재배종들을 가리킨다. 다만 이러한 재배종들도 학명 자체가 다른 경우가 많다.#\r\n\r\n-- 나무위키', 6, '2021-10-08 15:30:00', '2021-10-21 16:24:00'),
 	(91, 10, '로그 남기기2', '남겨 남겨요 왔다 감', 4, '2021-10-11 10:52:00', '2021-10-15 16:15:00'),
 	(92, 10, '로그 남기기1', '남겨 남겨요 왔다 감', 2, '2021-10-11 10:52:00', '2021-10-15 16:15:00'),
 	(93, 10, '로그 남기기', '남겨 남겨요 왔다 감', 0, '2021-10-11 10:52:15', NULL),
@@ -55,24 +55,10 @@ INSERT INTO `article` (`id`, `user_id`, `subject`, `content`, `likehit`, `create
 	(106, 10, '로그 남기기', '남겨 남겨요 왔다 감', 0, '2021-10-11 10:52:15', NULL),
 	(107, 10, '로그 남기기', '남겨 남겨요 왔다 감', 0, '2021-10-11 10:52:15', NULL),
 	(109, 10, '새로움', '새로움', 0, '2021-10-11 11:02:56', NULL),
-	(110, 10, 'test34', 'test3\r\n\r\ntest3\r\n\r\ntest3\r\n\r\ntest\r\n\r\ntest3\r\n\r\ntest', 0, '2021-10-11 11:40:00', '2021-10-11 15:08:00'),
-	(111, 10, 'ㅁㄴㅇㄹ', 'ㅁㄴㅇㄹ', 1, '2021-10-11 13:47:35', NULL),
-	(112, 10, '333', '333', 0, '2021-10-11 13:47:48', NULL),
-	(113, 10, '33', '333', 0, '2021-10-11 13:48:11', NULL),
 	(116, 10, 'mylog에서 글쓰기', 'mylog', 0, '2021-10-12 12:18:23', NULL),
-	(117, 10, 'ddfsdf', 'sdf', 0, '2021-10-13 09:39:41', NULL),
-	(124, 16, 'aa', 'aa', 0, '2021-10-13 11:28:34', NULL),
-	(125, 16, 'bb', 'bb', 0, '2021-10-13 11:28:39', NULL),
-	(135, 12, 'test', 'test', 0, '2021-10-14 12:41:11', NULL),
 	(138, 13, '가입 인사', '안녕하세요?\r\n\r\n새로 가입하게 되었습니다.', 0, '2021-10-14 15:22:23', NULL),
 	(139, 11, '테스트 회원 가입인사', '안녕하세요\r\n\r\n반가워요\r\n\r\n후후훟ㅅ', 0, '2021-10-15 09:45:57', NULL),
-	(140, 7, 'asdf', 'bbb', 0, '2021-10-15 14:07:02', NULL),
 	(141, 11, '좋아요', '테스트', 0, '2021-10-15 14:11:28', NULL),
-	(142, 11, '좋아요2', 'ㅁㄴㅇㄻㄴㅇㄹ', 0, '2021-10-15 14:11:55', NULL),
-	(143, 11, '좋아요2', 'ㅇㅇㅇ', 0, '2021-10-15 14:18:10', NULL),
-	(144, 11, '좋아요3', 'ㅋㅋ', 0, '2021-10-15 14:22:17', NULL),
-	(145, 11, '좋아요4', 'ㅇㅇ', 0, '2021-10-15 14:23:07', NULL),
-	(147, 11, '좋아요6 2 3 4 5 6 7  8', 'ㅇㅇㅇ', 1, '2021-10-15 14:43:00', '2021-10-15 14:50:00'),
 	(148, 12, '새로운 글2 3 5', '새로운 글입니다.', 0, '2021-10-15 16:00:00', '2021-10-15 16:01:00'),
 	(149, 10, '정렬 확인', '되나?', 1, '2021-10-19 10:39:35', NULL),
 	(150, 10, '좋아요 눌러짐', '글 작성하고\r\n\r\n좋아요 안 누른거 같은데\r\n\r\n좋아요가 1이 되나??', 2, '2021-10-19 10:40:29', NULL),
@@ -82,7 +68,6 @@ INSERT INTO `article` (`id`, `user_id`, `subject`, `content`, `likehit`, `create
 	(158, 10, '첨부 파일 없이 글 작성', '선택된 파일 없음', 0, '2021-10-20 21:18:46', NULL),
 	(159, 10, '첨부파일 추가', '주석 확인용 js', 1, '2021-10-20 21:20:56', NULL),
 	(160, 10, '첨부파일', 'ㅇㅇ', 0, '2021-10-20 21:25:00', NULL),
-	(161, 10, 'ㅁㄴㅇㄹ', 'ㄴㅇㄹㄴㅇㄹ', 0, '2021-10-20 21:27:10', NULL),
 	(162, 10, '파일 핸들', '수정 후 첨부파일', 0, '2021-10-20 21:30:54', NULL),
 	(164, 10, '첨부 파일 완료', '크크크크크', 0, '2021-10-20 21:40:00', '2021-10-20 21:44:00'),
 	(166, 10, '오늘 로그', '후후훗', 0, '2021-10-20 21:51:10', NULL),
@@ -94,7 +79,8 @@ INSERT INTO `article` (`id`, `user_id`, `subject`, `content`, `likehit`, `create
 	(172, 10, '정리중', '중중', 0, '2021-10-20 22:37:26', NULL),
 	(173, 10, '첨부파일', '테스트중', 0, '2021-10-20 22:39:20', NULL),
 	(174, 10, '코드 정리', '첨부 파일 소스 이동 중', 0, '2021-10-20 22:52:37', NULL),
-	(175, 13, '새로운 첨부파일', '코드 정리중', 0, '2021-10-20 22:58:24', NULL);
+	(175, 13, '새로운 첨부파일', '코드 정리중', 3, '2021-10-20 22:58:24', NULL),
+	(186, 10, 'IU - 라일락 가사', '세상의 모서리\r\n구부정하게 커버린\r\n골칫거리 Outsider\r\n걸음걸이 옷차림\r\n이어폰 너머 Play list\r\n음악까지 다 Minor\r\n넌 모르지\r\n떨군 고개 위\r\n환한 빛 조명이\r\n어딜 비추는지\r\n느려도 좋으니\r\n결국 알게 되길\r\nThe one and only\r\nYou are my celebrity\r\n잊지마 넌 흐린 어둠 사이\r\n왼손으로 그린 별 하나\r\n보이니 그 유일함이 얼마나\r\n아름다운지 말야\r\nYou are my celebrity\r\nCelebrity\r\nYou are my celebrity\r\n지쳐버린 표정 마치\r\n전원을 꺼놓은 듯이\r\n심장소린 Too quiet\r\n네가 가진 반짝거림\r\n상상력 Identity\r\n까지 모조리 Diet\r\n넌 모르지\r\n아직 못다 핀\r\n널 위해 쓰여진\r\n오래된 사랑시\r\n헤매도 좋으니\r\n웃음 짓게 되길\r\nThe one and only\r\nYou are my celebrity\r\n잊지마 넌 흐린 어둠 사이\r\n왼손으로 그린 별 하나\r\n보이니 그 유일함이 얼마나\r\n아름다운지 말야\r\nYou are my celebrity\r\n발자국마다 이어진 별자리\r\n그 서투른 걸음이 새겨놓은 밑그림\r\n오롯이 너를 만나러 가는 길\r\n그리로 가면 돼 점선을 따라\r\n잊지마 이 오랜 겨울 사이\r\n언 틈으로 피울 꽃 하나\r\n보이니 하루 뒤 봄이 얼마나\r\n아름다울지 말야\r\nYou are my celebrity\r\nCelebrity\r\nYou are my celebrity', 0, '2021-10-21 15:05:12', NULL);
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 
 -- 테이블 welog.article_picture 구조 내보내기
@@ -109,9 +95,9 @@ CREATE TABLE IF NOT EXISTS `article_picture` (
   PRIMARY KEY (`id`),
   KEY `FK_articlepicture_article` (`article_id`),
   CONSTRAINT `FK_articlepicture_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.article_picture:~0 rows (대략적) 내보내기
+-- 테이블 데이터 welog.article_picture:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `article_picture` DISABLE KEYS */;
 INSERT INTO `article_picture` (`id`, `article_id`, `filename`, `path`, `original`, `size`) VALUES
 	(7, 169, '188387750905800.png', 'src/main/resources/static/data/files/20211020', 'React.png', 5720),
@@ -119,7 +105,9 @@ INSERT INTO `article_picture` (`id`, `article_id`, `filename`, `path`, `original
 	(9, 172, '190761770374700.png', 'src/main/resources/static/data/files/20211020', 'js.png', 1843),
 	(10, 173, '190875782257500.png', 'src/main/resources/static/data/files/20211020', 'java.png', 2106),
 	(11, 174, '191672912650600.png', 'src/main/resources/static/data/files/20211020', 'nodejs.png', 2345),
-	(12, 175, '192020253539400.png', 'src/main/resources/static/data/files/20211020', 'java.png', 2106);
+	(12, 175, '192020253539400.png', 'src/main/resources/static/data/files/20211020', 'java.png', 2106),
+	(13, 79, '2116588630800.png', 'src/main/resources/static/data/files/20211021', 'pie.png', 533195),
+	(24, 186, '22482790712800.jpg', 'src/main/resources/static/data/files/20211021', '81867444_1616662460652_1_600x600.jpg', 160355);
 /*!40000 ALTER TABLE `article_picture` ENABLE KEYS */;
 
 -- 테이블 welog.comment 구조 내보내기
@@ -135,9 +123,9 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `FK_comment_user` (`user_id`),
   CONSTRAINT `FK_comment_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`),
   CONSTRAINT `FK_comment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.comment:~21 rows (대략적) 내보내기
+-- 테이블 데이터 welog.comment:~25 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 INSERT INTO `comment` (`id`, `article_id`, `user_id`, `content`, `created_date`) VALUES
 	(1, 91, 25, '댓글 테스트', '2021-10-18 11:24:53'),
@@ -160,11 +148,11 @@ INSERT INTO `comment` (`id`, `article_id`, `user_id`, `content`, `created_date`)
 	(30, 150, 11, '댓글 다 됩니다~~~!!', '2021-10-19 15:21:19'),
 	(31, 79, 11, '좋아요 제일 많은 곳\r\n\r\n수정 되나요?', '2021-10-19 15:22:00'),
 	(33, 141, 10, '타 사용자 글에 댓글 달기 test', '2021-10-20 12:15:48'),
-	(39, 147, 10, '댓글 좋아요6 3', '2021-10-20 19:37:17'),
-	(40, 79, 10, '댓글이용', '2021-10-20 20:55:06'),
 	(41, 159, 10, 'reply', '2021-10-20 21:22:02'),
 	(43, 150, 13, '밤이야 - 수정버전', '2021-10-20 23:11:00'),
-	(45, 150, 13, '잘 되네', '2021-10-20 23:11:32');
+	(45, 150, 13, '잘 되네', '2021-10-20 23:11:32'),
+	(47, 175, 10, '자바 댓글 최근', '2021-10-21 09:03:32'),
+	(48, 79, 10, '작성도 되', '2021-10-21 10:04:01');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
 -- 테이블 welog.like_article_user 구조 내보내기
@@ -176,33 +164,28 @@ CREATE TABLE IF NOT EXISTS `like_article_user` (
   KEY `FK_like_article_user_user` (`user_id`),
   CONSTRAINT `FK_like_article_user_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`),
   CONSTRAINT `FK_like_article_user_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.like_article_user:~20 rows (대략적) 내보내기
+-- 테이블 데이터 welog.like_article_user:~18 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `like_article_user` DISABLE KEYS */;
 INSERT INTO `like_article_user` (`article_id`, `user_id`) VALUES
-	(79, 10),
 	(91, 10),
 	(92, 10),
 	(96, 10),
 	(99, 10),
-	(147, 10),
 	(149, 10),
 	(159, 10),
-	(79, 11),
+	(175, 10),
 	(91, 11),
 	(92, 11),
 	(150, 11),
-	(79, 12),
+	(175, 11),
 	(95, 12),
 	(100, 12),
 	(103, 12),
-	(111, 12),
-	(79, 13),
 	(91, 13),
 	(150, 13),
-	(79, 24),
-	(79, 25),
+	(175, 13),
 	(91, 25);
 /*!40000 ALTER TABLE `like_article_user` ENABLE KEYS */;
 
@@ -212,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 welog.role:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
@@ -230,9 +213,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `enabled` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.user:~0 rows (대략적) 내보내기
+-- 테이블 데이터 welog.user:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `enabled`) VALUES
 	(7, 'role', '$2a$10$WyvEpz2lG.kUgljBcwcbNuSXuD8Ab8z5jPVex0nG4qN8FIxe0BSge', b'1'),
@@ -255,9 +238,9 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   KEY `FK_user_role_role` (`role_id`),
   CONSTRAINT `FK_user_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
   CONSTRAINT `FK_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 welog.user_role:~0 rows (대략적) 내보내기
+-- 테이블 데이터 welog.user_role:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
 	(7, 1),
