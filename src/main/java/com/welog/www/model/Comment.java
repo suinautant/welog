@@ -26,8 +26,6 @@ public class Comment {
 	
 	private String content;
 
-//	private String username;
-	
 	@Column(name="created_date", insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdDate;
 	
@@ -42,6 +40,5 @@ public class Comment {
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
 	private User user;
-	
 
 }

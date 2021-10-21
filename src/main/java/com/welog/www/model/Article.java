@@ -38,8 +38,6 @@ public class Article {
 	@NotNull
 	private String content;
 
-//	private String image_src;
-	
 	private Long likehit;
 
 	@Column(name="created_date", insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

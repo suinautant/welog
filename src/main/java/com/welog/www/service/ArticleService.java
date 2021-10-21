@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.welog.www.component.FileHandlerArticlePicture;
 import com.welog.www.model.Article;
 import com.welog.www.model.ArticlePicture;
 import com.welog.www.model.User;
@@ -33,11 +32,10 @@ public class ArticleService {
 		return articleRepository.findById(id).orElse(null);
 	}
 
-	// article id로 삭제
-	public void deleteById(
-			Long id) {
+	// article로 삭제
+	public void deleteByArticle(
+			Article article) {
 
-		Article      article   = articleRepository.findById(id).orElse(null);
 		List<String> filenames = transferFilenamepath(article);
 
 		// 첨부 파일 삭제
@@ -46,7 +44,7 @@ public class ArticleService {
 		}
 
 		// article 게시물 삭제
-		articleRepository.deleteById(id);
+		articleRepository.deleteById(article.getId());
 	}
 	
 	// user id로 article 모두 삭제
@@ -57,7 +55,7 @@ public class ArticleService {
 		
 		// 모든 게시물 삭제
 		for (Article article : articles) {
-			deleteById(article.getId());
+			deleteByArticle(article);
 		}
 
 	}
@@ -79,8 +77,8 @@ public class ArticleService {
 			String username,
 			Article article) {
 
-		User uesr = userRepository.findByUsername(username);
-		article.setUser(uesr);
+		User user = userRepository.findByUsername(username);
+		article.setUser(user);
 
 		return articleRepository.save(article);
 	}

@@ -223,7 +223,7 @@ public class ArticleController {
 
 		// 사용자 인증. 원글 사용자면 삭제
 		if (currentUsername.equals(articleUsername))
-			articleService.deleteById(id);
+			articleService.deleteByArticle(article);
 
 		return "redirect:/";
 	}

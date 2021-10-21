@@ -44,11 +44,8 @@ public class User {
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<>();
 
-	// cascade : User 객체로 CRUD시 Board 객체도 함께 CRUD 할 때 사용
-	// cascade = CascadeType.ALL,
 	// orphanRemoval : 부모가 없는 객체는 삭제 (true)
 	@OneToMany(mappedBy = "user", orphanRemoval = true)
-//	private List<Article> boards = new ArrayList<>();
 	private List<Article> articles = new ArrayList<>();
 
 	// 사용자가 좋아요한 Article

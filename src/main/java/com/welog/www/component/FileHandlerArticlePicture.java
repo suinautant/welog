@@ -6,25 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.welog.www.model.Article;
 import com.welog.www.model.ArticlePicture;
-import com.welog.www.service.ArticleService;
 
 @Component
 public class FileHandlerArticlePicture {
 
-	@Autowired
-	private ArticleService articleService;
-	
 	private String savePath = "src/main/resources/static/data/files/";
 
 	public List<ArticlePicture> parseFileInfo(
-//			Long articleId,
 			Article article,
 			List<MultipartFile> multipartFiles)
 			throws Exception {
@@ -56,7 +50,7 @@ public class FileHandlerArticlePicture {
 				String contentType = multipartFile.getContentType();
 				String originalFileExtension;
 
-				// 그림 파일만 저장
+				// 그림 파일만 저장(jpg, png, gif 확장자 검사)
 				if (ObjectUtils.isEmpty(contentType)) {
 					break;
 				} else {
@@ -74,7 +68,10 @@ public class FileHandlerArticlePicture {
 				// 파일 이름을 나노초로 지정
 				String newFilename = Long.toString(System.nanoTime()) + originalFileExtension;
 				ArticlePicture articlePicture = new ArticlePicture();
-//				Article article = articleService.findById(articleId);
+
+				// 이름 변경해 파일로 저장
+				File file = new File(absolutePath + path + "/" + newFilename);
+				multipartFile.transferTo(file);
 
 				// 객체 생성
 				articlePicture.setFilename(newFilename);
@@ -85,16 +82,9 @@ public class FileHandlerArticlePicture {
 
 				// 반환 할 리스트에 추가
 				fileList.add(articlePicture);
-
-				// 이름 변경해 파일로 저장
-				File file = new File(absolutePath + path + "/" + newFilename);
-				multipartFile.transferTo(file);
 			}
 		}
 		return fileList;
 	}
 	
-	public String getSavePath() {
-		return savePath;
-	}
 }

@@ -21,17 +21,17 @@ import com.welog.www.service.UserService;
 public class LikeItController {
 
 	@Autowired
+	private ArticleRepository articleRepository;
+
+	@Autowired
 	private LikeItRepository likeItRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private ArticleRepository articleRepository;
 
 	@GetMapping("/add")
 	public String add(Authentication authentication, @RequestParam(required = false) Long articleId,
-			//			@RequestParam(required = false) Long likehit,
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
@@ -49,7 +49,6 @@ public class LikeItController {
 
 	@GetMapping("/remove")
 	public String remove(Authentication authentication, @RequestParam(required = false) Long articleId,
-//			@RequestParam(required = false) Long likehit, 
 			HttpServletRequest request) {
 
 		String referer         = request.getHeader("Referer");
