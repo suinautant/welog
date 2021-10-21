@@ -21,16 +21,15 @@ import com.welog.www.validator.UserValidator;
 @Controller
 @RequestMapping("/account")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserValidator userValidator;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
 
 	@GetMapping("login")
 	public String login() {
@@ -38,7 +37,8 @@ public class UserController {
 	}
 
 	@GetMapping("register")
-	public String register(Model model, 
+	public String register(
+			Model model,
 			@RequestParam(required = false) Long id) {
 		if (id == null) {
 			model.addAttribute("user", new User());
@@ -46,12 +46,13 @@ public class UserController {
 
 		return "account/register";
 	}
-	
+
 	@PostMapping("register")
-	public String registerPost(@Valid User user,
+	public String registerPost(
+			@Valid User user,
 			BindingResult bindingResult) {
-		// validator 검증
-		// UserValidator 확인 후 오류 있을 시 /account/register 리턴
+
+		// validator 
 		userValidator.validate(user, bindingResult);
 		if (bindingResult.hasErrors())
 			return "/account/register";
@@ -59,9 +60,12 @@ public class UserController {
 		userService.save(user);
 		return "redirect:/";
 	}
-	
+
 	@PostMapping("/inactiveUser")
-	public String inactiveUser(@Valid User user, Authentication authentication, HttpServletRequest request) {
+	public String inactiveUser(
+			@Valid User user,
+			Authentication authentication,
+			HttpServletRequest request) {
 
 		String referer = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
@@ -70,23 +74,25 @@ public class UserController {
 			// getEnable toggle
 			if (user.getEnabled()) {
 				userRepository.updateEnabled(user.getId(), false);
-			} else  {
+			} else {
 				userRepository.updateEnabled(user.getId(), true);
 			}
 		}
-			
+
 		return "redirect:" + referer;
 	}
-	
+
 	@PostMapping("/leaveUser")
-	public String leaveUser(@Valid User user, Authentication authentication) {
+	public String leaveUser(
+			@Valid User user,
+			Authentication authentication) {
 
 		String currentUsername = authentication.getName();
 		// 접속자와 요청자가 동일 여부
 		if (currentUsername.equals(user.getUsername())) {
 			userRepository.deleteById(user.getId());
 		}
-			
+
 //		return "redirect:/logout";
 		return "redirect:/";
 	}
