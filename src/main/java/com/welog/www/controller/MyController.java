@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.welog.www.model.Article;
 import com.welog.www.model.Comment;
 import com.welog.www.model.User;
-import com.welog.www.repository.ArticleRepository;
-import com.welog.www.repository.LikeItRepository;
+import com.welog.www.service.ArticleService;
 import com.welog.www.service.CommentService;
+import com.welog.www.service.LikeItService;
 import com.welog.www.service.UserService;
 
 @Controller
@@ -24,13 +24,13 @@ import com.welog.www.service.UserService;
 public class MyController {
 
 	@Autowired
-	private ArticleRepository articleRepository;
-
-	@Autowired
-	private LikeItRepository likeItRepository;
+	private ArticleService articleService;
 
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private LikeItService likeItService;
 
 	@Autowired
 	private UserService userService;
@@ -39,11 +39,10 @@ public class MyController {
 	public String my(Model model, Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText, Authentication authentication) {
 
-		long userId = userService.findUserIdByCurrentUsername(authentication);
+		long userId = userService.findUserIdByUsername(authentication);
+		List<Article> articles = articleService.findByUser_idOrderByCreatedDateDesc(userId);
 
-		List<Article> articles = articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
-
-		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		String defaultMainImg = "/image/welog_main_thumbnail.png";
 		model.addAttribute("defaultMainImg", defaultMainImg);
 		model.addAttribute("articles", articles);
 
@@ -53,11 +52,9 @@ public class MyController {
 	@GetMapping("comment")
 	public String comment(Model model, Authentication authentication) {
 
-		Long userId = userService.findUserIdByCurrentUsername(authentication);
-
+		Long userId = userService.findUserIdByUsername(authentication);
 		List<Comment> comments = commentService.findByUserIdOrderByCreatedDateDesc(userId);
-
-		model.addAttribute("comments",comments);
+		model.addAttribute("comments", comments);
 
 		return "my/comment";
 	}
@@ -65,15 +62,15 @@ public class MyController {
 	@GetMapping("info")
 	public String info(Model model, Authentication authentication) {
 
-		long userId = userService.findUserIdByCurrentUsername(authentication);
-		User user   = userService.findById(userId);
+		long userId = userService.findUserIdByUsername(authentication);
+		User user = userService.findById(userId);
 
 		// 작성 글 총합
-		Long countArticleByUser = articleRepository.countByUser_id(userId);
+		Long countArticleByUser = articleService.countByUser_id(userId);
 		model.addAttribute("countArticleByUser", countArticleByUser);
 
 		// 좋아요 총합
-		int countLikeItByUser = likeItRepository.countLikeItByUser(userId);
+		int countLikeItByUser = likeItService.countLikeByUser(userId);
 		model.addAttribute("countLikeItByUser", countLikeItByUser);
 
 		model.addAttribute("user", user);
@@ -84,11 +81,11 @@ public class MyController {
 	@GetMapping("like")
 	public String like(Model model, Authentication authentication) {
 
-		long          userId   = userService.findUserIdByCurrentUsername(authentication);
-		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
+		long userId = userService.findUserIdByUsername(authentication);
+		List<Article> articles = likeItService.findByLikeItUserOrderByCreatedDateDesc(userId);
 		model.addAttribute("articles", articles);
 
-		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		String defaultMainImg = "/image/welog_main_thumbnail.png";
 		model.addAttribute("defaultMainImg", defaultMainImg);
 
 		return "my/like";

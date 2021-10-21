@@ -11,17 +11,17 @@ import com.welog.www.model.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-	Page<Article> findBySubjectContainingOrContentContaining( String subject, String content, Pageable pageable);
+	Page<Article> findBySubjectContainingOrContentContaining(String subject, String content, Pageable pageable);
 
-	List<Article> findBySubjectContainingOrContentContainingOrderByCreatedDateDesc( String subject, String content);
+	List<Article> findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(String subject, String content);
 
-	List<Article> findByUser_idOrderByCreatedDateDesc( Long id);
+	List<Article> findByUser_idOrderByCreatedDateDesc(Long id);
 
 	List<Article> findTop4ByOrderByLikehitDesc();
 
-	long countByUser_id( Long user_id);
+	long countByUser_id(Long user_id);
 
 	@Transactional
-	long deleteByUser_id( Long user_id);
+	long deleteByUser_id(Long user_id);
 
 }

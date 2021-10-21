@@ -23,8 +23,6 @@ import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
 import com.welog.www.model.Comment;
 import com.welog.www.model.User;
-import com.welog.www.repository.ArticleRepository;
-import com.welog.www.repository.UserRepository;
 import com.welog.www.service.ArticlePictureService;
 import com.welog.www.service.ArticleService;
 import com.welog.www.service.CommentService;
@@ -35,9 +33,6 @@ import com.welog.www.validator.ArticleValidator;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
-
-	@Autowired
-	private ArticleRepository articleRepository;
 
 	@Autowired
 	private ArticleService articleService;
@@ -57,22 +52,17 @@ public class ArticleController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserRepository userRepository;
-
 	@GetMapping("/")
-	public String main(
-			Model model,
-			Pageable pageable,
+	public String main(Model model, Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 
-		List<Article> articles = articleRepository
+		List<Article> articles = articleService
 				.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(searchText, searchText);
 
 		// 좋아요 랭킹 상위 4개
-		List<Article> likeArticles = articleRepository.findTop4ByOrderByLikehitDesc();
+		List<Article> likeArticles = articleService.findTop4ByOrderByLikehitDesc();
 
-		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		String defaultMainImg = "/image/welog_main_thumbnail.png";
 		model.addAttribute("defaultMainImg", defaultMainImg);
 		model.addAttribute("likeArticles", likeArticles);
 		model.addAttribute("articles", articles);
@@ -81,12 +71,10 @@ public class ArticleController {
 	}
 
 	@GetMapping("list")
-	public String list(
-			Model model,
-			@PageableDefault(size = 10) Pageable pageable,
+	public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 
-		Page<Article> articles = articleRepository.findBySubjectContainingOrContentContaining(searchText, searchText,
+		Page<Article> articles = articleService.findBySubjectContainingOrContentContaining(searchText, searchText,
 				pageable);
 
 		// 페이지 칼럼 개수 : 4개 이상 이동시 컬럼 자동 추가
@@ -102,16 +90,13 @@ public class ArticleController {
 	}
 
 	@GetMapping("view")
-	public String view(
-			Model model,
-			@RequestParam(required = false) Long id,
-			@RequestParam(required = false) Long commentId,
-			@RequestParam(required = false) String commentMode,
+	public String view(Model model, @RequestParam(required = false) Long id,
+			@RequestParam(required = false) Long commentId, @RequestParam(required = false) String commentMode,
 			Authentication authentication) {
 
 		if (id == null)
 			return "redirect:/";
-		Article article = articleRepository.findById(id).orElse(null);
+		Article article = articleService.findById(id);
 
 		// 없는 게시물에 접근 시 메인으로 보내기
 		if (article == null) {
@@ -132,7 +117,7 @@ public class ArticleController {
 		// User 객체 - 로그인 유저 정보
 		if (authentication != null) {
 			String currentUsername = authentication.getName();
-			User user = userRepository.findByUsername(currentUsername);
+			User user = userService.findByUsername(currentUsername);
 			model.addAttribute("user", user);
 		}
 
@@ -140,7 +125,7 @@ public class ArticleController {
 		List<Comment> comments = article.getComments();
 		model.addAttribute("comments", comments);
 
-		// 댓글 모드(작성, 수정)에 따른 객체
+		// 댓글 모드(작성, 수정)에 따라 다른 동작 (동일한 form 사용하기 위해)
 		Comment comment = new Comment();
 		model.addAttribute("comment", comment);
 
@@ -152,22 +137,21 @@ public class ArticleController {
 			model.addAttribute("editComment", editComment);
 			model.addAttribute("commentMode", commentMode);
 		}
-		
 		return "article/view";
 	}
 
 	@GetMapping("form")
-	public String form(
-			Model model,
-			@RequestParam(required = false) Long id) {
+	public String form(Model model, @RequestParam(required = false) Long id) {
 
 		if (id == null) {
+			// 신규 작성시
 			Article article = new Article();
 			article.setLikehit(0l);
 			model.addAttribute("article", article);
 
 		} else {
-			Article article = articleRepository.findById(id).orElse(null);
+			// 수정시
+			Article article = articleService.findById(id);
 
 			// 예외처리: id 값이 Long 타입이 아니거나 없는 게시물에 접근 시 목록으로 보내기
 			if (article == null) {
@@ -182,13 +166,9 @@ public class ArticleController {
 	}
 
 	@PostMapping("form")
-	public String formPost(
-			@Valid Article article,
-			@RequestParam(required = false) Long id,
+	public String formPost(@Valid Article article, @RequestParam(required = false) Long id,
 			@RequestParam(required = false, name = "files") List<MultipartFile> multipartFiles,
-			BindingResult bindingResult,
-			Authentication authentication)
-			throws Exception {
+			BindingResult bindingResult, Authentication authentication) throws Exception {
 
 		// validator  
 		articleValidator.validate(article, bindingResult);
@@ -213,11 +193,9 @@ public class ArticleController {
 	}
 
 	@GetMapping("delete")
-	public String delete(
-			@RequestParam(required = true) Long id,
-			Authentication authentication) {
+	public String delete(@RequestParam(required = true) Long id, Authentication authentication) {
 
-		Article article = articleRepository.findById(id).orElse(null);
+		Article article = articleService.findById(id);
 		String articleUsername = article.getUser().getUsername();
 		String currentUsername = authentication.getName();
 
@@ -229,8 +207,7 @@ public class ArticleController {
 	}
 
 	@GetMapping("/deleteAllArticleByUser")
-	public String deleteAllArticleByUser(
-			Authentication authentication) {
+	public String deleteAllArticleByUser(Authentication authentication) {
 
 		String currentUsername = authentication.getName();
 		long userId = userService.getUserIdFindByUsername(currentUsername);

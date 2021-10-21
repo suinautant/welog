@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.Article;
 import com.welog.www.model.User;
-import com.welog.www.repository.ArticleRepository;
-import com.welog.www.repository.LikeItRepository;
-import com.welog.www.repository.UserRepository;
+import com.welog.www.service.ArticleService;
+import com.welog.www.service.LikeItService;
 import com.welog.www.service.UserService;
 
 @Controller
@@ -21,28 +20,26 @@ import com.welog.www.service.UserService;
 public class LikeItController {
 
 	@Autowired
-	private ArticleRepository articleRepository;
+	private ArticleService articleService;
 
 	@Autowired
-	private LikeItRepository likeItRepository;
+	private LikeItService likeItService;
 
 	@Autowired
-	private UserRepository userRepository;
-
+	private UserService userService;
 
 	@GetMapping("/add")
 	public String add(Authentication authentication, @RequestParam(required = false) Long articleId,
 			HttpServletRequest request) {
 
-		String referer         = request.getHeader("Referer");
+		String referer = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
-		User   user            = userRepository.findByUsername(currentUsername);
-		//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+		User user = userService.findByUsername(currentUsername);
 
-		Article article = articleRepository.findById(articleId).orElse(null);
+		Article article = articleService.findById(articleId);
 
-		likeItRepository.likeItAdd(articleId, user.getId());
-		likeItRepository.likeItAddCount(articleId, article.getLikehit() + 1);
+		likeItService.likeItAdd(articleId, user.getId());
+		likeItService.likeItCount(articleId, article.getLikehit() + 1);
 
 		return "redirect:" + referer;
 	}
@@ -51,15 +48,14 @@ public class LikeItController {
 	public String remove(Authentication authentication, @RequestParam(required = false) Long articleId,
 			HttpServletRequest request) {
 
-		String referer         = request.getHeader("Referer");
+		String referer = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
-		User   user            = userRepository.findByUsername(currentUsername);
-		//		User user = userService.getUserFindByCurrentUsername(authentication.getName());
+		User user = userService.findByUsername(currentUsername);
 
-		Article article = articleRepository.findById(articleId).orElse(null);
+		Article article = articleService.findById(articleId);
 
-		likeItRepository.likeItRemove(articleId, user.getId());
-		likeItRepository.likeItAddCount(articleId, article.getLikehit() - 1);
+		likeItService.likeItRemove(articleId, user.getId());
+		likeItService.likeItCount(articleId, article.getLikehit() + -1);
 
 		return "redirect:" + referer;
 	}

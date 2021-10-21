@@ -25,7 +25,7 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			+ " SET likehit = ?2"
 			+ " WHERE id = ?1",
 			nativeQuery = true)
-	void likeItAddCount(Long articleId, Long likehit);
+	void likeItCount(Long articleId, Long likehit);
 
 	@Transactional
 	@Modifying
@@ -38,7 +38,7 @@ public interface LikeItRepository extends JpaRepository<Article, Long> {
 			+ " FROM like_article_user"
 			+ " WHERE user_id=?1", 
 			nativeQuery = true)
-	int countLikeItByUser(Long userId);
+	int countLikeByUser(Long userId);
 	
 //	SELECT a.id, a.user_id, a.subject, a.content, a.image_src, a.created_date, a.updated_date
 //	FROM like_article_user l

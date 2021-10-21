@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "UPDATE user"
 			+ " SET enabled= ?2 "
 			+ " WHERE id = ?1", nativeQuery = true)
-	void updateEnabled(Long id, boolean Enabled);
+	void updateEnabled(Long id, boolean enabled);
 	
 }

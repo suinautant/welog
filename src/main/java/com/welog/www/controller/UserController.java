@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.welog.www.model.User;
-import com.welog.www.repository.UserRepository;
 import com.welog.www.service.UserService;
 import com.welog.www.validator.UserValidator;
 
@@ -28,8 +27,6 @@ public class UserController {
 	@Autowired
 	private UserValidator userValidator;
 
-	@Autowired
-	private UserRepository userRepository;
 
 	@GetMapping("login")
 	public String login() {
@@ -37,9 +34,8 @@ public class UserController {
 	}
 
 	@GetMapping("register")
-	public String register(
-			Model model,
-			@RequestParam(required = false) Long id) {
+	public String register(Model model, @RequestParam(required = false) Long id) {
+
 		if (id == null) {
 			model.addAttribute("user", new User());
 		}
@@ -48,9 +44,7 @@ public class UserController {
 	}
 
 	@PostMapping("register")
-	public String registerPost(
-			@Valid User user,
-			BindingResult bindingResult) {
+	public String registerPost(@Valid User user, BindingResult bindingResult) {
 
 		// validator 
 		userValidator.validate(user, bindingResult);
@@ -62,10 +56,7 @@ public class UserController {
 	}
 
 	@PostMapping("/inactiveUser")
-	public String inactiveUser(
-			@Valid User user,
-			Authentication authentication,
-			HttpServletRequest request) {
+	public String inactiveUser(@Valid User user, Authentication authentication, HttpServletRequest request) {
 
 		String referer = request.getHeader("Referer");
 		String currentUsername = authentication.getName();
@@ -73,9 +64,9 @@ public class UserController {
 		if (currentUsername.equals(user.getUsername())) {
 			// getEnable toggle
 			if (user.getEnabled()) {
-				userRepository.updateEnabled(user.getId(), false);
+				userService.updateEnabled(user.getId(), false);
 			} else {
-				userRepository.updateEnabled(user.getId(), true);
+				userService.updateEnabled(user.getId(), true);
 			}
 		}
 
@@ -83,17 +74,14 @@ public class UserController {
 	}
 
 	@PostMapping("/leaveUser")
-	public String leaveUser(
-			@Valid User user,
-			Authentication authentication) {
+	public String leaveUser(@Valid User user, Authentication authentication) {
 
 		String currentUsername = authentication.getName();
 		// 접속자와 요청자가 동일 여부
 		if (currentUsername.equals(user.getUsername())) {
-			userRepository.deleteById(user.getId());
+			userService.deleteById(user.getId());
 		}
 
-//		return "redirect:/logout";
 		return "redirect:/";
 	}
 
