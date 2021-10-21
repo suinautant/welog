@@ -41,7 +41,6 @@ public class FileHandlerArticlePicture {
 
 		// 프로젝트 폴더의 절대 경로, 저장 날짜 폴더에 각각 저장
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-//		String path = "src/main/resources/static/images/" + currentDate;
 		String path = savePath + currentDate;
 		File filePath = new File(path);
 
@@ -93,5 +92,9 @@ public class FileHandlerArticlePicture {
 			}
 		}
 		return fileList;
+	}
+	
+	public String getSavePath() {
+		return savePath;
 	}
 }
