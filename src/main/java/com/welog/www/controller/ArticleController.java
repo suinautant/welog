@@ -1,8 +1,6 @@
 package com.welog.www.controller;
 
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.welog.www.classObject.AttachImage;
 import com.welog.www.classObject.LikeIt;
 import com.welog.www.model.Article;
-import com.welog.www.model.ArticlePicture;
 import com.welog.www.model.Comment;
 import com.welog.www.model.User;
 import com.welog.www.repository.ArticleRepository;
@@ -238,7 +234,6 @@ public class ArticleController {
 
 		String currentUsername = authentication.getName();
 		long userId = userService.getUserIdFindByUsername(currentUsername);
-//		articleRepository.deleteByUser_id(userId);
 		articleService.deleteByUserId(userId);
 
 		return "redirect:/my/info";
