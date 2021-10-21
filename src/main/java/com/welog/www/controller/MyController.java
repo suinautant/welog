@@ -43,6 +43,8 @@ public class MyController {
 
 		List<Article> articles = articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 
+		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		model.addAttribute("defaultMainImg", defaultMainImg);
 		model.addAttribute("articles", articles);
 
 		return "my/main";
@@ -85,6 +87,9 @@ public class MyController {
 		long          userId   = userService.findUserIdByCurrentUsername(authentication);
 		List<Article> articles = likeItRepository.findByLikeItUserOrderByCreatedDateDesc(userId);
 		model.addAttribute("articles", articles);
+
+		String defaultMainImg= "/image/welog_main_thumbnail.png";
+		model.addAttribute("defaultMainImg", defaultMainImg);
 
 		return "my/like";
 	}
