@@ -80,12 +80,21 @@
 
         <!-- 좋아요 세부 게시물 -->
         <div class="card-body card">
-          <!-- <div class="card-title" style="height: 10px; overflow: hidden;"> -->
-          <div class="card-title">
+
+          <!-- 제목 글자 수 20 이하는 그대로 출력 -->
+          <div class="card-title" th:if="*{#strings.length(article.subject) < 20}">
             <a class="fw-bold" href="#" th:text="${article.subject}"
               th:href="@{/article/view(id=${article.id})}">subject</a>
             <hr />
           </div>
+          <!-- 제목 글자 수가 20 이상일 경우 20자만 출력 -->
+          <div class="card-title" th:if="*{#strings.length(article.subject) > 19}">
+            <a class="fw-bold" href="#" th:href="@{/article/view(id=${article.id})}">
+              <span th:text="${#strings.substring(article.subject, 0, 16)}">subject</span>&nbsp;<span>..</span>
+            </a>
+            <hr />
+          </div>
+
           <div class="mb-3" style="height: 100px; overflow: hidden;">
             <a href="#" th:href="@{/article/view(id=${article.id})}">
                 <span class=" card-text"><pre th:text="${article.content}">This is content</pre></span>
@@ -149,15 +158,32 @@
 
         <!--  전체 세부 게시물 -->
         <div class="card-body card">
-          <div class="card-title">
+             <!-- 제목 글자 수 20 이하는 그대로 출력 -->
+          <div class="card-title" th:if="*{#strings.length(article.subject) < 20}">
             <a class="fw-bold" href="#" th:text="${article.subject}"
               th:href="@{/article/view(id=${article.id})}">subject</a>
             <hr />
-            <div class="mb-3" style="height: 100px; overflow: hidden;">
-              <a href="#" th:href="@{/article/view(id=${article.id})}">
-                <span class=" card-text"><pre th:text="${article.content}">This is content</pre></span>
-              </a>
-            </div>
+          </div>
+          <!-- 제목 글자 수가 20 이상일 경우 20자만 출력 -->
+          <div class="card-title" th:if="*{#strings.length(article.subject) > 19}">
+            <a class="fw-bold" href="#" th:href="@{/article/view(id=${article.id})}">
+              <span th:text="${#strings.substring(article.subject, 0, 16)}">subject</span>&nbsp;<span>..</span>
+            </a>
+            <hr />
+          </div>
+
+          <!-- 
+            <div class="card-title">
+              <a class="fw-bold" href="#" th:text="${article.subject}"
+              th:href="@{/article/view(id=${article.id})}">subject</a>
+              <hr />
+            -->
+
+              <div class="mb-3" style="height: 100px; overflow: hidden;">
+                <a href="#" th:href="@{/article/view(id=${article.id})}">
+                  <span class=" card-text"><pre th:text="${article.content}">This is content</pre></span>
+                </a>
+              </div>
 
             <div class="d-flex justify-content-between">
               <small class="text-muted" th:text="${article.createdDate}">9 mins</small>
