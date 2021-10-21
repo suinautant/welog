@@ -88,7 +88,7 @@
           </div>
           <div class="mb-3" style="height: 100px; overflow: hidden;">
             <a href="#" th:href="@{/article/view(id=${article.id})}">
-              <span class=" card-text" th:text="${article.content}">This is test article. </span>
+                <span class=" card-text"><pre th:text="${article.content}">This is content</pre></span>
             </a>
           </div>
           <div class="d-flex justify-content-between">
@@ -155,7 +155,7 @@
             <hr />
             <div class="mb-3" style="height: 100px; overflow: hidden;">
               <a href="#" th:href="@{/article/view(id=${article.id})}">
-                <span class=" card-text" th:text="${article.content}">This is test article. </span>
+                <span class=" card-text"><pre th:text="${article.content}">This is content</pre></span>
               </a>
             </div>
 
