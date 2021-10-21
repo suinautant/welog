@@ -238,7 +238,8 @@ public class ArticleController {
 
 		String currentUsername = authentication.getName();
 		long userId = userService.getUserIdFindByUsername(currentUsername);
-		articleRepository.deleteByUser_id(userId);
+//		articleRepository.deleteByUser_id(userId);
+		articleService.deleteByUserId(userId);
 
 		return "redirect:/my/info";
 	}
