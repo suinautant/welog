@@ -52,7 +52,6 @@ public class UserController {
 			return "/account/register";
 
 		userService.save(user);
-//		return "redirect:/";
 		return "redirect:/account/login";
 	}
 
@@ -83,7 +82,7 @@ public class UserController {
 			userService.deleteById(user.getId());
 		}
 
-		return "redirect:/";
+		return "redirect:/account/login?logout";
 	}
 
 // EOD
