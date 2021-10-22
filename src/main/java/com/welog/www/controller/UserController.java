@@ -52,7 +52,8 @@ public class UserController {
 			return "/account/register";
 
 		userService.save(user);
-		return "redirect:/";
+//		return "redirect:/";
+		return "redirect:/account/login";
 	}
 
 	@PostMapping("/inactiveUser")
