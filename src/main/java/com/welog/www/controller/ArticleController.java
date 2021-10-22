@@ -79,8 +79,8 @@ public class ArticleController {
 
 		// 페이지 칼럼 개수 : 4개 이상 이동시 컬럼 자동 추가
 		int columnPage = 4;
-		int startPage = Math.max(1, articles.getPageable().getPageNumber() - columnPage);
-		int endPage = Math.min(articles.getTotalPages(), articles.getPageable().getPageNumber() + columnPage);
+		int startPage  = Math.max(1, articles.getPageable().getPageNumber() - columnPage);
+		int endPage    = Math.min(articles.getTotalPages(), articles.getPageable().getPageNumber() + columnPage);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("startPage", startPage);
@@ -117,7 +117,7 @@ public class ArticleController {
 		// User 객체 - 로그인 유저 정보
 		if (authentication != null) {
 			String currentUsername = authentication.getName();
-			User user = userService.findByUsername(currentUsername);
+			User   user            = userService.findByUsername(currentUsername);
 			model.addAttribute("user", user);
 		}
 
@@ -168,7 +168,8 @@ public class ArticleController {
 	@PostMapping("form")
 	public String formPost(@Valid Article article, @RequestParam(required = false) Long id,
 			@RequestParam(required = false, name = "files") List<MultipartFile> multipartFiles,
-			BindingResult bindingResult, Authentication authentication) throws Exception {
+			BindingResult bindingResult, Authentication authentication)
+			throws Exception {
 
 		// validator  
 		articleValidator.validate(article, bindingResult);
@@ -195,9 +196,9 @@ public class ArticleController {
 	@GetMapping("delete")
 	public String delete(@RequestParam(required = true) Long id, Authentication authentication) {
 
-		Article article = articleService.findById(id);
-		String articleUsername = article.getUser().getUsername();
-		String currentUsername = authentication.getName();
+		Article article         = articleService.findById(id);
+		String  articleUsername = article.getUser().getUsername();
+		String  currentUsername = authentication.getName();
 
 		// 사용자 인증. 원글 사용자면 삭제
 		if (currentUsername.equals(articleUsername))
@@ -210,7 +211,7 @@ public class ArticleController {
 	public String deleteAllArticleByUser(Authentication authentication) {
 
 		String currentUsername = authentication.getName();
-		long userId = userService.getUserIdFindByUsername(currentUsername);
+		long   userId          = userService.getUserIdFindByUsername(currentUsername);
 		articleService.deleteByUserId(userId);
 
 		return "redirect:/my/info";
