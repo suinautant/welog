@@ -19,6 +19,7 @@ class ArticleApiController {
 
 	private final ArticleService articleService;
 
+	// map() 오류로 인해 Repository 사용
 	private final ArticleRepository articleRepository;
 
 	public ArticleApiController(ArticleService articleService, ArticleRepository articleRepository) {
@@ -44,7 +45,6 @@ class ArticleApiController {
 	@GetMapping("/articles/{id}")
 	Article one(@PathVariable Long id) {
 
-		// 오류 발생으로 주석, 동작 확인 후 수정 예정
 //    return articleService.findById(id).orElseThrow(() -> new ArticleNotFoundException(id));
 		return articleService.findById(id);
 	}
@@ -52,9 +52,9 @@ class ArticleApiController {
 	@PutMapping("/articles/{id}")
 	Article replaceArticle(@RequestBody Article newArticle, @PathVariable Long id) {
 
-		// 오류 발생으로 주석, 동작 확인 후 수정 예정
 //    return articleService.findById(id)
-		return articleRepository.findById(id).map(article -> {
+		return articleRepository.findById(id)
+				.map(article -> {
 			article.setSubject(newArticle.getSubject());
 			article.setContent(newArticle.getContent());
 			return articleService.save(article);
