@@ -26,6 +26,12 @@ public class ArticleService {
 
 	@Autowired
 	private UserService userService;
+	
+	public ArticleService(ArticleRepository articleRepository, UserRepository userRepository, UserService userService) {
+		this.articleRepository = articleRepository;
+		this.userRepository = userRepository;
+		this.userService = userService;
+	}
 
 	// user_id로 카운트
 	public Long countByUser_id(Long userId) {
@@ -44,6 +50,11 @@ public class ArticleService {
 
 		// article 게시물 삭제
 		articleRepository.deleteById(article.getId());
+	}
+	
+	// 기본형 deleteById
+	public void deleteById(Long id) {
+		articleRepository.deleteById(id);
 	}
 
 	// user id로 article 모두 삭제
@@ -67,6 +78,11 @@ public class ArticleService {
 			deleteFile.delete();
 		} else {
 		}
+	}
+	
+	// 전체 article
+	public List<Article> findAll() {
+		return articleRepository.findAll();
 	}
 
 	// article id로 찾기
@@ -95,6 +111,11 @@ public class ArticleService {
 		return articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 	}
 
+	// 기본형 save
+	public Article save(Article article) {
+		return articleRepository.save(article);
+	}
+	
 	// article 게시물과 파일 저장
 	public Article save(String username, Article article) {
 		User user = userRepository.findByUsername(username);

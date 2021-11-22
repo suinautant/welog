@@ -34,5 +34,6 @@ public class ArticlePicture {
 	@JoinColumn(name = "article_id")
 	@JsonIgnore
 	private Article article;
+
 	
 }

@@ -67,6 +67,5 @@ public class Article {
 	// ArticlePicture 1:N
 	@OneToMany(mappedBy = "article", orphanRemoval = true)
 	private List<ArticlePicture> articlePictures = new ArrayList<>();
-	
-	
+
 }
