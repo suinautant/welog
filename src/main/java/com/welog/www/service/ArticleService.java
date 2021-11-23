@@ -26,7 +26,7 @@ public class ArticleService {
 
 	@Autowired
 	private UserService userService;
-	
+
 	public ArticleService(ArticleRepository articleRepository, UserRepository userRepository, UserService userService) {
 		this.articleRepository = articleRepository;
 		this.userRepository = userRepository;
@@ -51,7 +51,7 @@ public class ArticleService {
 		// article 게시물 삭제
 		articleRepository.deleteById(article.getId());
 	}
-	
+
 	// 기본형 deleteById
 	public void deleteById(Long id) {
 		articleRepository.deleteById(id);
@@ -79,7 +79,7 @@ public class ArticleService {
 		} else {
 		}
 	}
-	
+
 	// 전체 article
 	public List<Article> findAll() {
 		return articleRepository.findAll();
@@ -90,23 +90,27 @@ public class ArticleService {
 		return articleRepository.findById(id).orElse(null);
 	}
 
-	// 제목과 내용 검색 결과를 작성자 역순 정렬 
+	public List<Article> findBySubject(String subject) {
+		return articleRepository.findBySubject(subject);
+	}
+
+	// 제목과 내용 검색 결과를 작성자 역순 정렬
 	public List<Article> findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(String subject,
 			String content) {
 		return articleRepository.findBySubjectContainingOrContentContainingOrderByCreatedDateDesc(subject, content);
 	}
 
-	// 제목과 내용 검색 결과를 작성자 역순 정렬 
+	// 제목과 내용 검색 결과를 작성자 역순 정렬
 	public Page<Article> findBySubjectContainingOrContentContaining(String subject, String content, Pageable pageable) {
 		return articleRepository.findBySubjectContainingOrContentContaining(subject, content, pageable);
 	}
 
-	// 좋아요 많은 순서 상위 4개 
+	// 좋아요 많은 순서 상위 4개
 	public List<Article> findTop4ByOrderByLikehitDesc() {
 		return articleRepository.findTop4ByOrderByLikehitDesc();
 	}
 
-	// user id로 날짜 역순 정렬 
+	// user id로 날짜 역순 정렬
 	public List<Article> findByUser_idOrderByCreatedDateDesc(Long userId) {
 		return articleRepository.findByUser_idOrderByCreatedDateDesc(userId);
 	}
@@ -115,7 +119,7 @@ public class ArticleService {
 	public Article save(Article article) {
 		return articleRepository.save(article);
 	}
-	
+
 	// article 게시물과 파일 저장
 	public Article save(String username, Article article) {
 		User user = userRepository.findByUsername(username);
@@ -127,13 +131,13 @@ public class ArticleService {
 	public List<String> transferFilenamepath(Article article) {
 
 		List<ArticlePicture> articlePictures = article.getArticlePictures();
-		List<String>         filenames       = new ArrayList<String>();
+		List<String> filenames = new ArrayList<String>();
 
 		if (!articlePictures.isEmpty()) {
 
 			for (ArticlePicture articlePicture : articlePictures) {
-				String path         = articlePicture.getPath();
-				String filename     = articlePicture.getFilename();
+				String path = articlePicture.getPath();
+				String filename = articlePicture.getFilename();
 				String absolutePath = new File("").getAbsolutePath() + "\\";
 				String filenamePath = absolutePath + path + "/" + filename;
 

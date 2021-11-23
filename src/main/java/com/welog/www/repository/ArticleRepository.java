@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.welog.www.model.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+	
+	List<Article> findBySubject(String subject);
 
 	Page<Article> findBySubjectContainingOrContentContaining(String subject, String content, Pageable pageable);
 
