@@ -40,7 +40,6 @@ class ArticleApiController {
 			return articleService.findBySubject(subject);
 		}
 	}
-	// end::get-aggregate-root[]
 
 	@PostMapping("/articles")
 	Article newArticle(@RequestBody Article newArticle) {
@@ -48,7 +47,6 @@ class ArticleApiController {
 	}
 
 	// Single item
-
 	@GetMapping("/articles/{id}")
 	Article one(@PathVariable Long id) {
 

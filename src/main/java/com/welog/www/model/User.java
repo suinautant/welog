@@ -46,6 +46,7 @@ public class User {
 
 	// orphanRemoval : 부모가 없는 객체는 삭제 (true)
 	@OneToMany(mappedBy = "user", orphanRemoval = true)
+	@JsonIgnore
 	private List<Article> articles = new ArrayList<>();
 
 	// 사용자가 좋아요한 Article
