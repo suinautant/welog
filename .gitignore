@@ -3,7 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+### DB 계정 ###
 src/main/resources/application.properties
+### 첨부파일 ###
 src/main/resources/static/data/files/
 
 ### STS ###
